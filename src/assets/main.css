@@ -36,6 +36,49 @@ a,
   text-decoration: underline;
 }
 
+.btn.save {
+  background-color: #666;
+  color: #ccc;
+  padding: 5px 20px;
+}
+
 .btn:hover {
   background-color: hsla(160, 100%, 37%, 0.2);
 }
+
+.card {
+  width: 500px;
+  margin: 0 40% 2em auto;
+}
+.card h2 {
+  margin-bottom: 2em;
+}
+
+.card > .row {
+  display: flex;
+  padding: 0.5em 0 1.5em 0;
+  
+}
+
+.card > .row > .fld {
+  flex-basis: 30%;
+  border-bottom: dotted 1px #ccc;
+}
+.card > .row > .val {
+  flex-basis: 70%;
+}
+.card > .row > .val > * {
+  width: 100%;
+}
+
+.card .submit {
+  margin-top: 2em;
+  text-align: right;
+}
+
+.card .descr {
+  height: 2.7em;
+}
+
+
+

@@ -27,6 +27,8 @@ const addName = computed(() => {
 
 <style scoped>
 header {
+  position: sticky;
+  top: 10px;
   display: flex;
   gap: 1em;
   border-bottom: solid 1px #ccc;
