@@ -5,6 +5,7 @@ import type { TItem } from './storeItems'
 export type TProduct = {
   id: number | 'add'
   name: string
+  descr: string
   image: string
   trashAt: Date | null
   top: TItem[]
@@ -25,6 +26,7 @@ export const useStoreProducts = defineStore('products', () => {
     {
       id: 1,
       name: 'Изделие-1',
+      descr: 'Изделие-1',
       image: '',
       trashAt: null,
       top: [],
@@ -35,6 +37,7 @@ export const useStoreProducts = defineStore('products', () => {
     {
       id: 2,
       name: 'Изделие-2',
+      descr: 'Изделие-2',
       image: '',
       trashAt: null,
       top: [],
@@ -48,7 +51,8 @@ export const useStoreProducts = defineStore('products', () => {
 
   const row: TProduct = {
     id: 'add',
-    name: 'Изделие-2',
+    name: 'Новое изделие',
+    descr: '',
     image: '',
     trashAt: null,
     top: [],

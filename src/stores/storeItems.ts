@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export type TItem = {
@@ -47,6 +47,12 @@ export const useStoreItems = defineStore('items', () => {
   ])
 
 
+  const keys = computed(() => list.value.map(el => el.id))
+  const top = computed(() => list.value.filter(el => el.target === 'top'))
+  const mid = computed(() => list.value.filter(el => el.target === 'mid'))
+  const bot = computed(() => list.value.filter(el => el.target === 'bot'))
+
+
   const row: TItem = {
     id: 'add',
     name: 'Новый материал',
@@ -59,5 +65,5 @@ export const useStoreItems = defineStore('items', () => {
   }
 
 
-  return { list, row }
+  return { list, keys, top, mid, bot, row }
 })

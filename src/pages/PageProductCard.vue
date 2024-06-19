@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { useStoreProducts } from '@/stores/storeProduct';
+import { useStoreItems } from '@/stores/storeItems';
+import ChoiceItems from '@/components/ChoiceItems.vue'
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 
 const route = useRoute()
 const products = useStoreProducts()
+const items = useStoreItems()
 
 const row = computed(() => {
   if (route.params.id === 'add') return products.row;
@@ -28,44 +31,55 @@ const row = computed(() => {
       <div class="val"><input type="text" v-model="row.name" /></div>
     </div>
     <div class="row">
+      <div class="fld">Описание</div>
+      <div class="val"><textarea  v-model="row.descr"></textarea></div>
+    </div>
+    <div class="row">
       <div class="fld">Картинка</div>
       <div class="val"><input type="text" v-model="row.image" /></div>
     </div>
 
-    <div class="list">
+    <ChoiceItems target="top" />
+
+    <!-- <div class="list">
       <div class="fld">Верх</div>
-      <div class="val">
-        {{ row.top }}  
+      <div class="store">
+        <div class="thead">
+          <div class="id">ID</div>
+          <div class="name">Название</div>
+          <div class="select"></div>
+        </div>
+        <div class="tr" v-for="el in items.top">
+          <div class="id">{{ el.id }}</div>
+          <div class="name">{{ el.name }}</div>
+          <div class="select"><span class="btn">Выбрать</span></div>
+        </div>
       </div>
-    </div>
-    
-    <div class="list">
-      <div class="fld">Центр</div>
-      <div class="val">
-        {{ row.mid }}  
+      <div class="selected">
+        selected
       </div>
-    </div>
-    
-    <div class="list">
-      <div class="fld">Низ</div>
-      <div class="val">
-        {{ row.bot }}  
-      </div>
-    </div>
-    
+    </div> -->
+
+
     <div class="price">
       <div class="fld">Цены</div>
       <div class="val">
         ывмывм
       </div>
     </div>
-    
-    
+
+
 
     <div class="submit">
       <span class="btn save">Сохранить</span>
     </div>
   </form>
-
-
 </template>
+
+
+<style scoped>
+.price { 
+  margin-top: 3em;
+ }
+
+</style>
