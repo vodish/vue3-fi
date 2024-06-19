@@ -20,7 +20,7 @@ const row = computed(() => {
 
 <template>
   <form class="card" v-if="row">
-    <h2>Карточка материала</h2>
+    <h2>{{ row.name }}</h2>
 
     <div class="row">
       <div class="fld">Название</div>
@@ -32,7 +32,7 @@ const row = computed(() => {
     </div>
     <div class="row">
       <div class="fld">Ед. измерения</div>
-      <div class="val"><input type="text" v-model="row.unit" /></div>
+      <div class="val"><input type="text" v-model="row.unit" style="width: 15ch;" /></div>
     </div>
     <div class="row">
       <div class="fld">price</div>
@@ -56,6 +56,4 @@ const row = computed(() => {
     </div>
   </form>
 
-  <!-- <pre>{{ item }} </pre> -->
 </template>
-
