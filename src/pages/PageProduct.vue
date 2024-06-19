@@ -13,10 +13,12 @@ function handleDelete(id: number | 'add') {
     <li class="li" v-for="(p) in products.list" :key="p.id">
       <div class="row">
         <div class="name"><RouterLink :to="$route.path + '/' + p.id">{{ p.name }}</RouterLink></div>
-        <div class="list">
-          <div class="top">top: {{ p.top }}</div>
-          <div class="mid">mid: {{ p.mid }}</div>
-          <div class="bot">bot: {{ p.bot }}</div>
+        <div class="descr">{{ p.descr }}</div>
+        <div class="price">price: ....</div>
+        <div class="items">
+          <span class="top">top: {{ p.top }}</span>
+          <span class="mid">mid: {{ p.mid }}</span>
+          <span class="bot">bot: {{ p.bot }}</span>
         </div>
       </div>
       <div class="options">
@@ -53,5 +55,9 @@ ul > li:hover {
 .row .info {
   display: flex;
   gap: 1em;
+}
+.row .items {
+  display: flex;
+  gap: 2ch;
 }
 </style>
