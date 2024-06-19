@@ -19,13 +19,24 @@ export const useStoreItems = defineStore('items', () => {
     {
       id: 1,
       name: 'Материал 1',
-      descr: 'материал описания',
+      descr: 'материал описания 1',
       unit: 'м',
       price: 1,
       target: 'top',
       image: '',
       trashAt: null,
     },
+    {
+      id: 2,
+      name: 'Материал 2',
+      descr: 'материал описания 2',
+      unit: 'м',
+      price: 1,
+      target: 'top',
+      image: '',
+      trashAt: null,
+    },
+    
   ])
 
   const row: TItem = {
@@ -38,19 +49,6 @@ export const useStoreItems = defineStore('items', () => {
     image: '',
     trashAt: null,
   }
-
-  // const row = computed( () => {
-  //   if ( !roure.params.id ) return undefined;
-
-  //   const filter = list.value.filter((el, i) => {
-  //     if (Number(roure.params.id) === el.id) {
-  //       return { ...el, key: i }
-  //     }
-  //   })
-
-  //   return filter[0];
-  // })
-
 
 
   return { list, row }

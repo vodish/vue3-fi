@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useStoreItems } from '@/stores/storeItems';
 
-const itemList = ref([
-  { name: 'Материал-1', id: 1, descr: 'descr', price: 'диапазон' },
-  { name: 'Материал-2', id: 2, descr: 'descr', price: 'диапазон' },
-  { name: 'Материал-3', id: 3, descr: 'descr', price: 'диапазон цен' },
-])
+const items = useStoreItems()
 
-function handleDelete(id: number) {
+function handleDelete(id: number | 'add') {
   alert(`Удалить ${id}`)
 }
 </script>
 
 <template>
   <ul>
-    <li class="li" v-for="(p, i) in itemList" :key="p.id + i">
+    <li class="li" v-for="(p, i) in items.list" :key="`${p.id}${i}`">
       <div class="row">
         <div class="name">{{ p.name }}</div>
         <div class="info">

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useStoreItems } from '@/stores/storeItems';
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
@@ -9,16 +9,16 @@ const items = useStoreItems()
 const row = computed(() => {
   if (route.params.id === 'add') return items.row;
 
-  const filter = items.list.filter(el => Number(route.params.id) === el.id)
-  
+  const filter = items.list.filter(el => {
+    return Number(route.params.id) === el.id
+  })
+
   return filter[0] || items.row;
 })
 
 </script>
 
 <template>
-  <pre>{{ items.row }}</pre>
-
   <form class="card" v-if="row">
     <h2>Карточка материала</h2>
 
