@@ -12,11 +12,11 @@ function handleDelete(id: number | 'add') {
   <ul>
     <li class="li" v-for="(p, i) in items.list" :key="`${p.id}${i}`">
       <div class="row">
-        <div class="name">{{ p.name }}</div>
+        <div class="name"><RouterLink :to="$route.path + '/' + p.id">{{ p.name }}</RouterLink></div>
         <div class="info">
           <div class="id">id: {{ p.id }}</div>
-          <div class="descr">{{ p.descr }}</div>
-          <div class="price">{{ p.price }}</div>
+          <div class="descr">описание: {{ p.descr }}</div>
+          <div class="price">цена: {{ p.price }}</div>
         </div>
       </div>
       <div class="options">

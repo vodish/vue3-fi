@@ -1,6 +1,5 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useRoute } from 'vue-router'
 
 type TItem = {
   id: number | 'add'
@@ -14,7 +13,6 @@ type TItem = {
 }
 
 export const useStoreItems = defineStore('items', () => {
-  // const roure = useRoute()
   const list = ref<TItem[]>([
     {
       id: 1,
@@ -36,8 +34,18 @@ export const useStoreItems = defineStore('items', () => {
       image: '',
       trashAt: null,
     },
-    
+    {
+      id: 3,
+      name: 'Материал 3',
+      descr: 'материал описания 3',
+      unit: 'м',
+      price: 1,
+      target: 'mid',
+      image: '',
+      trashAt: null,
+    },
   ])
+
 
   const row: TItem = {
     id: 'add',
