@@ -11,13 +11,10 @@ const props = defineProps<{
 
 const items = useStoreItems()
 const list = computed(() => items[props.target])
-
 const show = ref(false)
-
 const sels = computed(() => {
   return props.selected.map(id => {
-    const key = items.keys.findIndex(el => el === id)
-    return items.list[key]
+    return items.list[items.keys.get(id)]
   })
 })
 

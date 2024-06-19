@@ -47,7 +47,12 @@ export const useStoreItems = defineStore('items', () => {
   ])
 
 
-  const keys = computed(() => list.value.map(el => el.id))
+  const keys = computed(() => {
+    const map1 = new Map
+    list.value.map((el, i) => map1.set(el.id, i) )
+    return map1
+  })
+
   const top = computed(() => list.value.filter(el => el.target === 'top'))
   const mid = computed(() => list.value.filter(el => el.target === 'mid'))
   const bot = computed(() => list.value.filter(el => el.target === 'bot'))

@@ -10,6 +10,7 @@ const route = useRoute()
 const products = useStoreProducts()
 const items = useStoreItems()
 
+
 const row = computed(() => {
   if (route.params.id === 'add') return products.row;
 
@@ -21,10 +22,20 @@ const row = computed(() => {
 })
 
 
+const prices = computed(() => {
+  return row.value.prices.map(el => ({
+    ...el,
+    top: items.list[items.keys.get(el.top)],
+    mid: items.list[items.keys.get(el.mid)],
+  }))
+})
 
 </script>
 
+
+
 <template>
+  
   <form class="card" v-if="row">
     <h2>{{ row.name }}</h2>
 
@@ -39,7 +50,9 @@ const row = computed(() => {
     </div>
 
     <div class="row">
-      <div class="fld">Картинка (<span @click="row.image = 'https://i.pravatar.cc/150?img=9'" style="cursor: pointer;">пример</span>)</div>
+      <div class="fld">Картинка (<span
+          @click="row.image = 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 20)"
+          style="cursor: pointer;">пример</span>)</div>
       <div class="val"><input type="text" v-model="row.image" /></div>
     </div>
     <div class="image" v-if="row.image">
@@ -56,8 +69,10 @@ const row = computed(() => {
 
     <div class="row price">
       <div class="fld">Цены</div>
-      <div class="val">
-        sdvsd
+      <div class="list" v-for="(p, i) in prices">
+        <div class="top">({{ p.top.id }}) {{ p.top.name }}</div>
+        <div class="mid">({{ p.mid.id }}) {{ p.mid.name }}</div>
+        <div class="type"><input type="text" v-model="row.prices[i].price"></div>
       </div>
     </div>
 

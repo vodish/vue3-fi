@@ -29,10 +29,14 @@ export const useStoreProducts = defineStore('products', () => {
       descr: 'Изделие-1',
       image: '',
       trashAt: null,
-      top: [],
-      mid: [],
+      top: [2,1],
+      mid: [3,3],
       bot: [],
-      prices: [],
+      prices: [
+        {top: 1, mid: 3, price: 333},
+        {top: 1, mid: 3, price: 123},
+        {top: 1, mid: 3, price: 566},
+      ],
     },
     {
       id: 2,
