@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { TItem } from './storeItems'
 
-type TProduct = {
+export type TProduct = {
   id: number | 'add'
   name: string
   image: string
@@ -10,7 +10,15 @@ type TProduct = {
   top: TItem[]
   mid: TItem[]
   bot: TItem[]
+  prices: TProductPrice[]
 }
+
+export type TProductPrice = {
+  top: number
+  mid: number
+  price: number
+}
+
 
 export const useStoreProducts = defineStore('products', () => {
   const list = ref<TProduct[]>([
@@ -22,6 +30,7 @@ export const useStoreProducts = defineStore('products', () => {
       top: [],
       mid: [],
       bot: [],
+      prices: [],
     },
     {
       id: 2,
@@ -31,6 +40,7 @@ export const useStoreProducts = defineStore('products', () => {
       top: [],
       mid: [],
       bot: [],
+      prices: [],
     },
 
   ])
@@ -44,6 +54,7 @@ export const useStoreProducts = defineStore('products', () => {
     top: [],
     mid: [],
     bot: [],
+    prices: [],
   }
 
 
