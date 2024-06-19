@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-type TItem = {
+export type TItem = {
   id: number | 'add'
   name: string
   descr: string

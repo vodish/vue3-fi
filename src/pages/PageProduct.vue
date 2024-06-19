@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useStoreProducts } from '@/stores/storeProduct';
 
-const productList = ref([
-  { name: 'Продукт-1', id: 1, descr: 'descr', price: 'диапазон' },
-  { name: 'Продукт-2', id: 2, descr: 'descr', price: 'диапазон' },
-  { name: 'Продукт-3', id: 3, descr: 'descr', price: 'диапазон цен' },
-])
+const products = useStoreProducts()
 
-function handleDelete(id: number) {
+function handleDelete(id: number | 'add') {
   alert(`Удалить ${id}`)
 }
 </script>
 
 <template>
   <ul>
-    <li class="li" v-for="(p, i) in productList" :key="p.id + i">
+    <li class="li" v-for="(p) in products.list" :key="p.id">
       <div class="row">
-        <div class="name">{{ p.name }}</div>
-        <div class="info">
-          <div class="id">id: {{ p.id }}</div>
-          <div class="descr">{{ p.descr }}</div>
-          <div class="price">{{ p.price }}</div>
+        <div class="name"><RouterLink :to="$route.path + '/' + p.id">{{ p.name }}</RouterLink></div>
+        <div class="list">
+          <div class="top">top: {{ p.top }}</div>
+          <div class="mid">mid: {{ p.mid }}</div>
+          <div class="bot">bot: {{ p.bot }}</div>
         </div>
       </div>
       <div class="options">
@@ -38,7 +34,8 @@ ul {
   list-style: none;
 }
 ul > li {
-  border-left: solid 1px #ccc;
+  border: solid 1px transparent;
+  border-left-color: #ccc;
   padding: 0.5em 1ch;
   margin-bottom: 2em;
   display: flex;
@@ -46,7 +43,7 @@ ul > li {
   gap: 10px;
 }
 ul > li:hover {
-  background-color: #eee;
+  border-color: #ccc;
 }
 
 .row .name {
