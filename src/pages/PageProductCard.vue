@@ -22,14 +22,6 @@ const row = computed(() => {
 
 
 
-// function handleAdd(id: number) {
-//   props.selected.push(id)
-// }
-
-// function handleDel(id: number) {
-//   // const  props.selected.filter(el => el !== id)
-// }
-
 </script>
 
 <template>
@@ -40,27 +32,32 @@ const row = computed(() => {
       <div class="fld">Название</div>
       <div class="val"><input type="text" v-model="row.name" /></div>
     </div>
+
     <div class="row">
       <div class="fld">Описание</div>
-      <div class="val"><textarea  v-model="row.descr"></textarea></div>
+      <div class="val"><textarea v-model="row.descr"></textarea></div>
     </div>
+
     <div class="row">
-      <div class="fld">Картинка</div>
+      <div class="fld">Картинка (<span @click="row.image = 'https://i.pravatar.cc/150?img=9'" style="cursor: pointer;">пример</span>)</div>
       <div class="val"><input type="text" v-model="row.image" /></div>
     </div>
+    <div class="image" v-if="row.image">
+      <img :src="row.image" />
+    </div>
 
+    <br /> <br />
     <ChoiceItems head="Верх" target="top" :selected="row.top" />
     <br /> <br />
-    <ChoiceItems head="Центр" target="mid" :selected="row.mid"/>
+    <ChoiceItems head="Cередина" target="mid" :selected="row.mid" />
     <br /> <br />
-    <ChoiceItems head="Низ" target="bot" :selected="row.bot"/>
-    <br /> <br />
-    
+    <ChoiceItems head="Низ" target="bot" :selected="row.bot" />
 
-    <div class="price">
+
+    <div class="row price">
       <div class="fld">Цены</div>
       <div class="val">
-        ывмывм
+        sdvsd
       </div>
     </div>
 
@@ -74,8 +71,14 @@ const row = computed(() => {
 
 
 <style scoped>
-.price { 
-  margin-top: 3em;
- }
-
+.image img {
+  max-width: 400px;
+}
+.price {
+  margin-top: 4em;
+  display: block;
+}
+.price .fld {
+  font-size: 1.2em;
+}
 </style>

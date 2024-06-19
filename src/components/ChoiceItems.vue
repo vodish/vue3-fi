@@ -74,7 +74,7 @@ function handleDel(key: number) {
 }
 
 .list > .head > span:first-child {
-  font-size: 18px;
+  font-size: 1.2em;
 }
 
 .li.store {

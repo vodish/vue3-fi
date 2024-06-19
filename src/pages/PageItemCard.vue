@@ -42,7 +42,7 @@ const row = computed(() => {
       <div class="fld">target</div>
       <div class="val">
         <label> <input type="radio" id="one" value="top" v-model="row.target" /> Верх </label>
-        <label> <input type="radio" id="one" value="mid" v-model="row.target" /> Центр </label>
+        <label> <input type="radio" id="one" value="mid" v-model="row.target" /> Cередина </label>
         <label><input type="radio" id="one" value="bot" v-model="row.target" /> Низ </label>
       </div>
     </div>
