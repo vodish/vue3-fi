@@ -20,6 +20,16 @@ const row = computed(() => {
   return filter[0] || products.row;
 })
 
+
+
+// function handleAdd(id: number) {
+//   props.selected.push(id)
+// }
+
+// function handleDel(id: number) {
+//   // const  props.selected.filter(el => el !== id)
+// }
+
 </script>
 
 <template>
@@ -39,27 +49,13 @@ const row = computed(() => {
       <div class="val"><input type="text" v-model="row.image" /></div>
     </div>
 
-    <ChoiceItems target="top" />
-
-    <!-- <div class="list">
-      <div class="fld">Верх</div>
-      <div class="store">
-        <div class="thead">
-          <div class="id">ID</div>
-          <div class="name">Название</div>
-          <div class="select"></div>
-        </div>
-        <div class="tr" v-for="el in items.top">
-          <div class="id">{{ el.id }}</div>
-          <div class="name">{{ el.name }}</div>
-          <div class="select"><span class="btn">Выбрать</span></div>
-        </div>
-      </div>
-      <div class="selected">
-        selected
-      </div>
-    </div> -->
-
+    <ChoiceItems head="Верх" target="top" :selected="row.top" />
+    <br /> <br />
+    <ChoiceItems head="Центр" target="mid" :selected="row.mid"/>
+    <br /> <br />
+    <ChoiceItems head="Низ" target="bot" :selected="row.bot"/>
+    <br /> <br />
+    
 
     <div class="price">
       <div class="fld">Цены</div>

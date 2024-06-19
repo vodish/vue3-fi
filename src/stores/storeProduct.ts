@@ -8,9 +8,9 @@ export type TProduct = {
   descr: string
   image: string
   trashAt: Date | null
-  top: TItem[]
-  mid: TItem[]
-  bot: TItem[]
+  top: number[]
+  mid: number[]
+  bot: number[]
   prices: TProductPrice[]
 }
 

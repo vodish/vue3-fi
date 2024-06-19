@@ -28,11 +28,12 @@ const addName = computed(() => {
 <style scoped>
 header {
   position: sticky;
-  top: 10px;
+  top: 0;
   display: flex;
   gap: 1em;
   border-bottom: solid 1px #ccc;
-  padding-bottom: 1em;
+  background: var(--color-background);
+  padding: 1em 0;
   margin-bottom: 2em;
   font-size: 18px;
 }
