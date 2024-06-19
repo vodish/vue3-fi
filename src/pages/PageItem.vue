@@ -38,7 +38,8 @@ ul {
   list-style: none;
 }
 ul > li {
-  border-left: solid 1px #ccc;
+  border: solid 1px transparent;
+  border-left-color: #ccc;
   padding: 0.5em 1ch;
   margin-bottom: 2em;
   display: flex;
@@ -46,7 +47,7 @@ ul > li {
   gap: 10px;
 }
 ul > li:hover {
-  background-color: #eee;
+  border: solid 1px #ccc;
 }
 
 .row .name {
@@ -57,4 +58,5 @@ ul > li:hover {
   display: flex;
   gap: 1em;
 }
+
 </style>

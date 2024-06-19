@@ -15,10 +15,9 @@ a,
   padding: 3px;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+
+a:hover {
+  background-color: hsla(160, 100%, 37%, 0.2);
 }
 
 .btn {
@@ -29,6 +28,12 @@ a,
   border-radius: 3px;
   cursor: pointer;
   color: var(--vt-c-indigo);
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn {
+    color: #ccc;
+  }
 }
 
 .btn.back {
@@ -50,6 +55,16 @@ a,
   width: 500px;
   margin: 0 40% 2em auto;
 }
+
+.card input {
+  padding: 8px;
+}
+
+.card textarea {
+  padding: 8px;
+}
+
+
 .card h2 {
   margin-bottom: 2em;
 }
@@ -80,5 +95,9 @@ a,
   height: 2.7em;
 }
 
+.card > .row > .val > .price {
+  width: 10ch;
+  text-align: right;
+}
 
 
