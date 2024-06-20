@@ -69,7 +69,7 @@ const prices = computed(() => {
 
     <div class="row">
       <div class="fld">Картинка (<span
-          @click="row.image = 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 20)"
+          @click="row.image = 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 50)"
           style="cursor: pointer;">пример</span>)</div>
       <div class="val"><input type="text" v-model="row.image" /></div>
     </div>

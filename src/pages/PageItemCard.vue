@@ -47,7 +47,7 @@ const row = computed(() => {
       </div>
     </div>
     <div class="row">
-      <div class="fld">Картинка  (<span @click="row.image = 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 20)" style="cursor: pointer;">пример</span>)</div>
+      <div class="fld">Картинка  (<span @click="row.image = 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 70)" style="cursor: pointer;">пример</span>)</div>
       <div class="val"><input type="text" v-model="row.image" /></div>
     </div>
     <div class="image" v-if="row.image">
