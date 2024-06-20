@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useStoreItems, type TRowId } from '@/stores/storeItems';
+import { useStoreProducts } from '@/stores/storeProduct';
 import { computed, ref } from 'vue';
 
 const props = defineProps<{
@@ -9,6 +10,7 @@ const props = defineProps<{
 }>()
 
 
+const products = useStoreProducts()
 const items = useStoreItems()
 const list = computed(() => items[props.target])
 const open = ref(false)
@@ -24,14 +26,13 @@ function isEmpty(id: TRowId) {
   return props.selected.indexOf(id as number) < 0
 }
 
-function handleAdd(id: TRowId) {
-  props.selected.push(id as number)
+function handleAdd(id: number) {
+  products.addItem(props.target, id)
   open.value = false
 }
 
-function handleDel(id: TRowId) {
-  const idx = props.selected.indexOf(id as number)
-  props.selected.splice(idx, 1)
+function handleDel(id: number) {
+  products.delItem(props.target, id)
   open.value = false
 }
 
@@ -49,20 +50,20 @@ function handleDel(id: TRowId) {
         <div class="name">Название</div>
         <div class="select"></div>
       </div>
-      <div class="tr" v-for="el in list">
+      <div class="tr" v-for="el in list" :key="el.id">
         <div class="id">{{ el.id }}</div>
         <div class="name">{{ el.name }}</div>
         <div class="select">
-          <span class="btn" @click="handleAdd(el.id)" v-if="isEmpty(el.id)">Добавить</span>
-          <span class="btn" @click="handleDel(el.id)" v-else>Удалить</span>
+          <span class="btn" @click="handleAdd(el.id as number)" v-if="isEmpty(el.id)">Добавить</span>
+          <span class="btn" @click="handleDel(el.id as number)" v-else>Удалить</span>
         </div>
       </div>
     </div>
     <div class="li selected">
-      <div class="tr" v-for="el in sels">
+      <div class="tr" v-for="el in sels" :key="el.id">
         <div class="id">{{ el.id }}</div>
         <div class="name">{{ el.name }}</div>
-        <div class="select"><span class="btn" @click="handleDel(el.id)">Удалить</span></div>
+        <div class="select"><span class="btn" @click="handleDel(el.id as number)">Удалить</span></div>
       </div>
     </div>
   </div>

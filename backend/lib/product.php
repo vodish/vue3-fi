@@ -92,7 +92,7 @@ class product
             'prices'    => [],
         ];
 
-        return [$example];
+        return [$example, [...$example, 'id' => 3]];
 
         ui::vd($list);
 

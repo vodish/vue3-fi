@@ -1,10 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { TRowId } from './storeItems'
 import { apiRequest } from '@/utils/api'
 
 export type TProduct = {
-  id: TRowId
+  id: number
   name: string
   descr: string
   image: string
@@ -13,6 +12,7 @@ export type TProduct = {
   mid: number[]
   bot: number[]
   prices: TProductPrice[]
+  deleted?: boolean
 }
 
 export type TProductPrice = {
@@ -28,8 +28,9 @@ export const useStoreProducts = defineStore('products', () => {
   const list = ref<TProduct[]>([])
   apiRequest<TProduct[]>('/product/getAll').then(res => list.value = res)
 
-  const newrow: TProduct = {
-    id: 'add',
+
+  const row = ref<TProduct>({
+    id: -1,
     name: 'Новое изделие',
     descr: '',
     image: '',
@@ -38,25 +39,59 @@ export const useStoreProducts = defineStore('products', () => {
     mid: [],
     bot: [],
     prices: [],
+  })
+
+  function setRow(id: number | 'add') {
+    if ( id === 'add' ) return;
+    
+    const find = list.value.find(el => el.id === id)
+    if (find) {
+      row.value = find
+    }
+    setPrices()
   }
 
-  
-  function apiInsert(data: object) {
-    alert('apiInsert')
-    apiRequest<TProduct[]>('/product/insert', data).then(res => list.value = res)
+  function setPrices() {
+    const newPices: TProductPrice[] = []
+
+    row.value.top.map(top => {
+      row.value.mid.map(mid => {
+        const uid = `${top}_${mid}`
+        const price = row.value?.prices.filter(el => el.uid === uid)[0]?.price || 0
+        newPices.push({ uid, top, mid, price })
+      })
+    })
+
+    return row.value.prices = newPices
   }
 
-  function apiUpdate(data: object) {
-    alert('apiUpdate')
-    apiRequest<TProduct[]>('/product/update', data).then(res => list.value = res)
+
+  function addItem(target: 'top' | 'mid' | 'bot', id: number) {
+    row.value[target].push(id)
+    setPrices()
+  }
+  function delItem(target: 'top' | 'mid' | 'bot', id: number) {
+    row.value[target] = row.value[target].filter(el => el !== id)
+    setPrices()
   }
 
-  function apiDelete(id: number) {
-    alert('apiDelete')
-    apiRequest<TProduct[]>('/product/delete', { id }).then(res => list.value = res)
+  function apiInsert() {
+    apiRequest<TProduct[]>('/product/insert', { row }).then(res => list.value = res)
+  }
+
+  function apiUpdate() {
+    apiRequest<TProduct[]>('/product/update', { row }).then(res => list.value = res)
+  }
+
+  function apiDelete() {
+    apiRequest<TProduct[]>('/product/delete', { id: row.value?.id }).then(res => list.value = res)
+    row.value.deleted = true
   }
 
 
 
-  return { list, newrow, apiInsert, apiUpdate, apiDelete }
+  return {
+    list, row,
+    setRow, addItem, delItem, apiInsert, apiUpdate, apiDelete,
+  }
 })

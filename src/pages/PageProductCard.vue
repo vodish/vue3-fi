@@ -1,47 +1,22 @@
 <script setup lang="ts">
-import { useStoreProducts, type TProductPrice } from '@/stores/storeProduct';
+import { useStoreProducts } from '@/stores/storeProduct';
 import { useStoreItems } from '@/stores/storeItems';
 import ChoiceItems from '@/components/ChoiceItems.vue'
 import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
-const router = useRouter()
+// const router = useRouter()
 const route = useRoute()
 const products = useStoreProducts()
 const items = useStoreItems()
 
+products.setRow(route.params.id as number | 'add')
 
-const row = computed(() => {
-  if (route.params.id === 'add') return products.newrow;
-
-  const filter = products.list.filter(el => {
-    return Number(route.params.id) === el.id
-  })
-
-  return filter[0] || products.newrow;
-})
-
+const row = computed(() => products.row)
 
 const prices = computed(() => {
-  if (!row.value.top.length || !row.value.mid.length) {
-    row.value.prices = []
-    return;
-  }
+  if (!row.value) return []
 
-  // новый массив
-  let newPices: TProductPrice[] = []
-
-  row.value.top.map(top => {
-    row.value.mid.map(mid => {
-      const uid = `${top}_${mid}`
-      const price = row.value.prices.filter(el => el.uid === uid)[0]?.price || 0
-      newPices.push({ uid, top, mid, price })
-    })
-  })
-
-  row.value.prices = newPices
-
-  // массив для отображения
   return row.value.prices.map(el => ({
     ...el,
     top: items.list[items.keys.get(el.top)],
@@ -49,36 +24,29 @@ const prices = computed(() => {
   }))
 })
 
-
-
-async function handleSave() {
-  if (row.value.id === 'add') {
-    await products.saveRow({ ...row.value }, 'insert')
-    const lastId = items.list[items.list.length - 1].id
-    router.push({ path: `/product/${lastId}` })
-    alert('Добавлено');
-  }
-  else {
-    products.saveRow({ ...row.value }, 'update')
-    alert('Сохранено');
-  }
-
+function handleInsert() {
+  products.apiInsert()
 }
 
+function handleUpdate() {
+  products.apiUpdate()
+}
 
 function handleDelete() {
   if (confirm('Удалить изделие?')) {
-    items.saveRow({ ...row.value }, 'delete')
+    products.apiDelete()
   }
 }
-
 
 </script>
 
 
 
 <template>
-  <form class="card" v-if="row">
+  <div v-if="row.deleted">
+    Изделие удалено.
+  </div>
+  <form class="card" v-else-if="row">
     <h2>{{ row.name }}</h2>
 
     <div class="row">
@@ -111,7 +79,7 @@ function handleDelete() {
 
     <div class="row prices">
       <div class="fld">Цены</div>
-      <div class="li" v-for="(p, i) in prices">
+      <div class="li" v-for="(p, i) in prices" :key="p.uid">
         <div class="top">{{ p.top.id }}: {{ p.top.name }}</div>
         <div class="mid">{{ p.mid.id }}: {{ p.mid.name }}</div>
         <div class="price"><input type="text" v-model="row.prices[i].price"></div>
@@ -120,10 +88,12 @@ function handleDelete() {
 
 
     <div class="submit">
-      <span class="btn save" @click="handleSave">Сохранить</span>
-    </div>
-    <div class="submit">
-      <span class="btn save" @click="handleDelete">Удалить</span>
+      <span class="btn save" v-if="$route.params.id === 'add'" @click="handleInsert">Добавить</span>
+      <div v-else>
+        <span class="btn save" @click="handleUpdate">Изменить</span>
+        <br /><br />
+        <span class="btn save" @click="handleDelete">Удалить</span>
+      </div>
     </div>
   </form>
 </template>
