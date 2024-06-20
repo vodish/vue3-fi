@@ -67,12 +67,12 @@ const prices = computed(() => {
     <ChoiceItems head="Низ" target="bot" :selected="row.bot" />
 
 
-    <div class="row price">
+    <div class="row prices">
       <div class="fld">Цены</div>
-      <div class="list" v-for="(p, i) in prices">
-        <div class="top">({{ p.top.id }}) {{ p.top.name }}</div>
-        <div class="mid">({{ p.mid.id }}) {{ p.mid.name }}</div>
-        <div class="type"><input type="text" v-model="row.prices[i].price"></div>
+      <div class="li" v-for="(p, i) in prices">
+        <div class="top">{{ p.top.id }}: {{ p.top.name }}</div>
+        <div class="mid">{{ p.mid.id }}: {{ p.mid.name }}</div>
+        <div class="price"><input type="text" v-model="row.prices[i].price"></div>
       </div>
     </div>
 
@@ -89,11 +89,31 @@ const prices = computed(() => {
 .image img {
   max-width: 400px;
 }
-.price {
+.prices {
   margin-top: 4em;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.price .fld {
+.prices .fld {
   font-size: 1.2em;
 }
+
+.prices .li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding-bottom: 5px;
+  border-bottom: dotted 1px #ccc;
+}
+
+.prices .li .price {
+  margin-left: auto;
+}
+
+.prices .li input {
+  width: 12ch;
+  text-align: right;
+}
+
 </style>

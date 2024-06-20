@@ -15,6 +15,7 @@ export type TProduct = {
 }
 
 export type TProductPrice = {
+  uid: string
   top: number
   mid: number
   price: number
@@ -33,9 +34,8 @@ export const useStoreProducts = defineStore('products', () => {
       mid: [3],
       bot: [],
       prices: [
-        {top: 1, mid: 3, price: 333},
-        {top: 1, mid: 3, price: 123},
-        {top: 1, mid: 3, price: 566},
+        {uid: '2,3', top: 2, mid: 3, price: 333},
+        {uid: '1,3', top: 1, mid: 3, price: 123},
       ],
     },
     {
