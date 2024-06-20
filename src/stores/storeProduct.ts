@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { TRowId } from './storeItems'
-import { API_HEADERS, API_URL, apiRequest } from '@/utils/api'
+import { apiRequest } from '@/utils/api'
 
 export type TProduct = {
   id: TRowId
@@ -40,10 +40,7 @@ export const useStoreProducts = defineStore('products', () => {
     prices: [],
   }
 
-
-
-
-
+  
   function apiInsert(data: object) {
     alert('apiInsert')
     apiRequest<TProduct[]>('/product/insert', data).then(res => list.value = res)
