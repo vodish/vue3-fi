@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
+import { itemGetAll } from '@/utils/api'
 
 export type TRowId = number | 'add'
 
@@ -15,38 +16,8 @@ export type TItem = {
 }
 
 export const useStoreItems = defineStore('items', () => {
-  const list = ref<TItem[]>([
-    {
-      id: 1,
-      name: 'Материал 1',
-      descr: 'материал описания 1',
-      unit: 'м',
-      price: 10,
-      target: 'top',
-      image: '',
-      trashAt: null,
-    },
-    {
-      id: 2,
-      name: 'Материал 2',
-      descr: 'материал описания 2',
-      unit: 'м',
-      price: 20,
-      target: 'top',
-      image: '',
-      trashAt: null,
-    },
-    {
-      id: 3,
-      name: 'Материал 3',
-      descr: 'материал описания 3',
-      unit: 'м',
-      price: 30,
-      target: 'mid',
-      image: '',
-      trashAt: null,
-    },
-  ])
+  const list = ref<TItem[]>([]);
+  itemGetAll().then(data => list.value = data);
 
 
   const keys = computed(() => {

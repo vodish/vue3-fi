@@ -9,11 +9,9 @@ const items = useStoreItems()
 const row = computed(() => {
   if (route.params.id === 'add') return items.row;
 
-  const filter = items.list.filter(el => {
-    return Number(route.params.id) === el.id
-  })
+  const row = items.list.filter(el => Number(route.params.id) === el.id)
 
-  return filter[0] || items.row;
+  return row[0] || items.row;
 })
 
 </script>
