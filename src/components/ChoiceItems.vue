@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useStoreItems } from '@/stores/storeItems';
+import { useStoreItems, type TRowId } from '@/stores/storeItems';
 import { computed, ref } from 'vue';
 
 const props = defineProps<{
@@ -20,12 +20,17 @@ const sels = computed(() => {
 
 
 
-function handleAdd(id: number) {
-  props.selected.push(id)
+function isEmpty(id: TRowId) {
+  return props.selected.indexOf(id as number) < 0
 }
 
-function handleDel(key: number) {
-  props.selected.splice(key, 1);
+function handleAdd(id: TRowId) {
+  props.selected.push(id as number)
+}
+
+function handleDel(id: TRowId) {
+  const idx = props.selected.indexOf(id as number)
+  props.selected.splice(idx, 1);
 }
 
 </script>
@@ -45,14 +50,17 @@ function handleDel(key: number) {
       <div class="tr" v-for="el in list">
         <div class="id">{{ el.id }}</div>
         <div class="name">{{ el.name }}</div>
-        <div class="select"><span class="btn" @click="handleAdd(el.id as number)">Добавить</span></div>
+        <div class="select">
+          <span class="btn" @click="handleAdd(el.id)" v-if="isEmpty(el.id)">Добавить</span>
+          <span class="btn" @click="handleDel(el.id)" v-else>Удалить</span>
+        </div>
       </div>
     </div>
     <div class="li selected">
-      <div class="tr" v-for="(el, k) in sels">
+      <div class="tr" v-for="el in sels">
         <div class="id">{{ el.id }}</div>
         <div class="name">{{ el.name }}</div>
-        <div class="select"><span class="btn" @click="handleDel(k)">Удалить</span></div>
+        <div class="select"><span class="btn" @click="handleDel(el.id)">Удалить</span></div>
       </div>
     </div>
   </div>

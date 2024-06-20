@@ -1,9 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { TItem } from './storeItems'
+import type { TRowId } from './storeItems'
 
 export type TProduct = {
-  id: number | 'add'
+  id: TRowId
   name: string
   descr: string
   image: string
@@ -30,7 +30,7 @@ export const useStoreProducts = defineStore('products', () => {
       image: '',
       trashAt: null,
       top: [2,1],
-      mid: [3,3],
+      mid: [3],
       bot: [],
       prices: [
         {top: 1, mid: 3, price: 333},

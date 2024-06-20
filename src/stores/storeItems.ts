@@ -1,8 +1,10 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
+export type TRowId = number | 'add'
+
 export type TItem = {
-  id: number | 'add'
+  id: TRowId
   name: string
   descr: string
   unit: string
