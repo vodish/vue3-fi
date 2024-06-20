@@ -3,9 +3,9 @@ import { useStoreProducts, type TProductPrice } from '@/stores/storeProduct';
 import { useStoreItems } from '@/stores/storeItems';
 import ChoiceItems from '@/components/ChoiceItems.vue'
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-
+const router = useRouter()
 const route = useRoute()
 const products = useStoreProducts()
 const items = useStoreItems()
@@ -48,6 +48,30 @@ const prices = computed(() => {
     mid: items.list[items.keys.get(el.mid)],
   }))
 })
+
+
+
+async function handleSave() {
+  if (row.value.id === 'add') {
+    await products.saveRow({ ...row.value }, 'insert')
+    const lastId = items.list[items.list.length - 1].id
+    router.push({ path: `/product/${lastId}` })
+    alert('Добавлено');
+  }
+  else {
+    products.saveRow({ ...row.value }, 'update')
+    alert('Сохранено');
+  }
+
+}
+
+
+function handleDelete() {
+  if (confirm('Удалить изделие?')) {
+    items.saveRow({ ...row.value }, 'delete')
+  }
+}
+
 
 </script>
 
@@ -96,13 +120,19 @@ const prices = computed(() => {
 
 
     <div class="submit">
-      <span class="btn save">Сохранить</span>
+      <span class="btn save" @click="handleSave">Сохранить</span>
+    </div>
+    <div class="submit">
+      <span class="btn save" @click="handleDelete">Удалить</span>
     </div>
   </form>
 </template>
 
 
 <style scoped>
+h2 {
+  min-height: 2em;
+}
 .image img {
   max-width: 400px;
 }

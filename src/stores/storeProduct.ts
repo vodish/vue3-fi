@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { TRowId } from './storeItems'
+import { API_HEADERS, API_URL } from '@/utils/api'
 
 export type TProduct = {
   id: TRowId
@@ -66,5 +67,19 @@ export const useStoreProducts = defineStore('products', () => {
   }
 
 
-  return { list, newrow }
+
+  async function saveRow(data: object, action: 'insert' | 'update' | 'delete' = 'insert') {
+    const res = await fetch(`${API_URL}/product/save`, {
+      method: 'POST',
+      headers: API_HEADERS,
+      body: JSON.stringify({ ...data, action: action })
+    })
+    const json = await res.json() as TProduct[]
+
+    list.value = json || [];
+  }
+
+
+
+  return { list, newrow, saveRow }
 })

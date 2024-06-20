@@ -24,7 +24,7 @@ a:hover {
   display: inline-block;
   font-size: 1rem;
   padding: 3px 10px;
-  border: solid 1px #ccc;
+  border: solid 1px #cccccc15;
   border-radius: 3px;
   cursor: pointer;
   color: var(--vt-c-indigo);
