@@ -62,6 +62,8 @@ class item
     }
 
 
+    # добавить в бд запись
+    #
     static function dbInsert()
     {
         $lastId = db::query("
@@ -87,6 +89,8 @@ class item
     }
 
 
+    # обновить в бд запись
+    #
     static function dbUpdate($id)
     {
         db::query("
@@ -106,6 +110,9 @@ class item
         return $id;
     }
 
+
+    # удалить из бд запись
+    #
     static function dbDelete($id)
     {
         db::query("

@@ -2,8 +2,9 @@
 import { useStoreItems } from '@/stores/storeItems';
 import { itemSave } from '@/utils/api'
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
+const router = useRouter()
 const route = useRoute()
 const items = useStoreItems()
 
@@ -16,14 +17,24 @@ const row = computed(() => {
 })
 
 
-function handleSave() {
-  items.saveRow({...row.value}, 'update')
+async function handleSave() {
+  if (row.value.id === 'add') {
+    await items.saveRow({ ...row.value }, 'insert')
+    const lastId =  items.list[items.list.length - 1].id
+    router.push({ path: `/item/${lastId}` })
+    alert('Добавлено');
+  }
+  else {
+    items.saveRow({ ...row.value }, 'update')
+    alert('Сохранено');
+  }
+  
 }
 
 
 function handleDelete() {
-  if ( confirm('Удалить материал?') ) {
-    items.saveRow({...row.value }, 'delete')
+  if (confirm('Удалить материал?')) {
+    items.saveRow({ ...row.value }, 'delete')
   }
 }
 
@@ -59,7 +70,9 @@ function handleDelete() {
       </div>
     </div>
     <div class="row">
-      <div class="fld">Картинка  (<span @click="row.image = 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 70)" style="cursor: pointer;">пример</span>)</div>
+      <div class="fld">Картинка (<span
+          @click="row.image = 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 70)"
+          style="cursor: pointer;">пример</span>)</div>
       <div class="val"><input type="text" v-model="row.image" /></div>
     </div>
     <div class="image" v-if="row.image">
@@ -67,10 +80,11 @@ function handleDelete() {
     </div>
 
     <div class="submit">
-      <span class="btn save" @click="handleDelete">Удалить</span>
       <span class="btn save" @click="handleSave">Сохранить</span>
     </div>
-
+    <div class="submit">
+      <span class="btn save" @click="handleDelete">Удалить</span>
+    </div>
   </form>
   <div v-else>
     Материал удален.

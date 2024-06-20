@@ -43,7 +43,7 @@ export const useStoreItems = defineStore('items', () => {
   }
 
 
-  async function saveRow(data: object, action: 'update' | 'delete' = 'update') {
+  async function saveRow(data: object, action: 'insert' | 'update' | 'delete' = 'insert') {
     const res = await fetch(`${API_URL}/item/save`, {
       method: 'POST',
       headers: API_HEADERS,
