@@ -14,11 +14,6 @@ const products = useStoreProducts()
 const items = useStoreItems()
 const list = computed(() => items[props.target])
 const open = ref(false)
-const sels = computed(() => {
-  return props.selected.map(id => {
-    return items.list[items.keys.get(id)]
-  })
-})
 
 
 
@@ -28,12 +23,12 @@ function isEmpty(id: TRowId) {
 
 function handleAdd(id: number) {
   products.addItem(props.target, id)
-  open.value = false
+  // open.value = false
 }
 
 function handleDel(id: number) {
   products.delItem(props.target, id)
-  open.value = false
+  // open.value = false
 }
 
 </script>
@@ -44,28 +39,25 @@ function handleDel(id: number) {
       <span>{{ props.head }}</span>
       <span>Выбрать</span>
     </div>
-    <div class="li store" v-if="open">
-      <div class="thead">
+    <div class="li store">
+      <div class="thead" v-if="open">
         <div class="id">ID</div>
         <div class="name">Название</div>
         <div class="select"></div>
       </div>
-      <div class="tr" v-for="el in list" :key="el.id">
-        <div class="id">{{ el.id }}</div>
-        <div class="name">{{ el.name }}</div>
-        <div class="select">
-          <span class="btn" @click="handleAdd(el.id as number)" v-if="isEmpty(el.id)">Добавить</span>
-          <span class="btn" @click="handleDel(el.id as number)" v-else>Удалить</span>
+      <template v-for="el in list" :key="el.id">
+        <div class="tr" v-if="open || !isEmpty(el.id)">
+          <div class="id">{{ el.id }}</div>
+          <div class="name">{{ el.name }}</div>
+          <div class="select">
+            <span class="btn" @click="handleAdd(el.id as number)" v-if="isEmpty(el.id)">Добавить</span>
+            <span class="btn" @click="handleDel(el.id as number)" v-else>Удалить</span>
+          </div>
         </div>
-      </div>
+      </template>
+
     </div>
-    <div class="li selected">
-      <div class="tr" v-for="el in sels" :key="el.id">
-        <div class="id">{{ el.id }}</div>
-        <div class="name">{{ el.name }}</div>
-        <div class="select"><span class="btn" @click="handleDel(el.id as number)">Удалить</span></div>
-      </div>
-    </div>
+
   </div>
 </template>
 
@@ -87,7 +79,6 @@ function handleDel(id: number) {
 
 .li.store {
   padding-bottom: 1em;
-  border-bottom: solid 1px #ccc;
 }
 
 
