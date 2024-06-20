@@ -22,6 +22,13 @@ const prices = computed(() => {
   }))
 })
 
+function handleInsert() {
+  products.apiInsert()
+}
+
+function handleUpdate() {
+  products.apiUpdate()
+}
 
 function handleDelete() {
   if (confirm('Удалить изделие?')) {
@@ -79,9 +86,9 @@ function handleDelete() {
 
 
     <div class="submit">
-      <span class="btn save" v-if="$route.params.id === 'add'" @click="products.apiInsert()">Добавить</span>
+      <span class="btn save" v-if="$route.params.id === 'add'" @click="handleInsert">Добавить</span>
       <div v-else>
-        <span class="btn save" @click="products.apiUpdate()">Изменить</span>
+        <span class="btn save" @click="handleUpdate">Изменить</span>
         <br /><br />
         <span class="btn save" @click="handleDelete">Удалить</span>
       </div>
