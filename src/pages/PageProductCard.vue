@@ -28,6 +28,7 @@ const prices = computed(() => {
     return;
   }
 
+  // новый массив
   let newPices: TProductPrice[] = []
 
   row.value.top.map(top => {
@@ -35,13 +36,12 @@ const prices = computed(() => {
       const uid = `${top}_${mid}`
       const price = row.value.prices.filter(el => el.uid === uid)[0]?.price || 0
       newPices.push({ uid, top, mid, price })
-      // console.log(`${top}_${mid}`, price)
     })
   })
 
   row.value.prices = newPices
 
-
+  // массив для отображения
   return row.value.prices.map(el => ({
     ...el,
     top: items.list[items.keys.get(el.top)],
