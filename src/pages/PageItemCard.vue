@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useStoreItems } from '@/stores/storeItems';
+import { itemSave } from '@/utils/api'
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -13,6 +14,13 @@ const row = computed(() => {
 
   return row[0] || items.row;
 })
+
+
+function handleSave() {
+  
+  itemSave({...row.value})
+}
+
 
 </script>
 
@@ -53,7 +61,7 @@ const row = computed(() => {
     </div>
 
     <div class="submit">
-      <span class="btn save">Сохранить</span>
+      <span class="btn save" @click="handleSave">Сохранить</span>
     </div>
   </form>
 

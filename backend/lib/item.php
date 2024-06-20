@@ -15,7 +15,9 @@ class item
     {
         if (req::$path != '/item/save')    return;
 
-
-        ui::vd(req::$path);
+        res::json(req::$body);
+        // ui::vd(req::$path);
+        // ui::vd(req::$body);
+        die;
     }
 }

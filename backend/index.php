@@ -5,6 +5,13 @@ error_reporting(E_ALL | E_NOTICE);
 ini_set('display_errors', 'On');
 #
 #
+# cors
+#
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
+header('Access-Control-Allow-Headers: Content-Type, X-Auth');
+#
+#
 # авто подключение классов
 #
 spl_autoload_register(function ($name) {
@@ -20,14 +27,7 @@ define('DB_USER',   'vue3fi');
 define('DB_PASS',   'vue3fi23435535');
 db::init();
 req::parse();
-#
-#
-#
-# cors
-#
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST');
-header("Access-Control-Allow-Headers: X-Requested-With");
+
 
 
 
