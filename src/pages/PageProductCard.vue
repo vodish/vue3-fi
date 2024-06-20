@@ -12,13 +12,13 @@ const items = useStoreItems()
 
 
 const row = computed(() => {
-  if (route.params.id === 'add') return products.row;
+  if (route.params.id === 'add') return products.newrow;
 
   const filter = products.list.filter(el => {
     return Number(route.params.id) === el.id
   })
 
-  return filter[0] || products.row;
+  return filter[0] || products.newrow;
 })
 
 

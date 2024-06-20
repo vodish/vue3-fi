@@ -30,11 +30,11 @@ export const useStoreProducts = defineStore('products', () => {
       descr: 'Изделие-1',
       image: '',
       trashAt: null,
-      top: [2,1],
-      mid: [3],
+      top: [],
+      mid: [],
       bot: [],
       prices: [
-        {uid: '2_3', top: 2, mid: 3, price: 333},
+        // {uid: '2_3', top: 2, mid: 3, price: 333},
         // {uid: '1_3', top: 1, mid: 3, price: 123},
       ],
     },
@@ -53,7 +53,7 @@ export const useStoreProducts = defineStore('products', () => {
   ])
 
 
-  const row: TProduct = {
+  const newrow: TProduct = {
     id: 'add',
     name: 'Новое изделие',
     descr: '',
@@ -66,5 +66,5 @@ export const useStoreProducts = defineStore('products', () => {
   }
 
 
-  return { list, row }
+  return { list, newrow }
 })
