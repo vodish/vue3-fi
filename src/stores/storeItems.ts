@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { API_URL, API_HEADERS } from '@/utils/api'
+import { API_URL, API_HEADERS, apiRequest } from '@/utils/api'
 
 export type TRowId = number | 'add'
 
@@ -18,14 +18,8 @@ export type TItem = {
 export const useStoreItems = defineStore('items', () => {
   const list = ref<TItem[]>([]);
 
-  async function itemGetAll() {
-    const res = await fetch(`${API_URL}/item/getAll`)
-    const json = await res.json()
-    
-    list.value =  json || []
-  }
-
-  itemGetAll()
+  apiRequest<TItem[]>('/item/getAll').then( res => list.value = res )
+  
 
 
 

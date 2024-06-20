@@ -13,30 +13,49 @@ class product
     }
 
 
-    static function save()
-    {
-        if (req::$path != '/product/save')    return;
 
+    static function insert()
+    {
+        if (req::$path != '/product/insert')    return;
+        if (empty(req::$body))                  return;
 
         # добавить запись
-        # обновить
-        # удалить
-        #
-        if (req::$body['id'] === 'add') {
-            self::dbInsert();
-        } elseif (req::$body['id'] > 0) {
-            $item = db::one("SELECT `id`  FROM `item`  WHERE `id` = :id",  ['id' => req::$body['id']]);
-
-            if ($item && req::$body['action'] === 'update') {
-                self::dbUpdate($item['id']);
-            }
-            if ($item && req::$body['action'] === 'delete') {
-                self::dbDelete($item['id']);
-            }
-        }
-
-
+        # вернуть данные
+        self::dbInsert(req::$body);
         $list = self::dbGetAll();
+
+        res::json($list);
+    }
+
+    static function update()
+    {
+        if (req::$path != '/product/update')    return;
+        if (empty(req::$body))                  return;
+
+        $row    =   self::dbGetById(req::$body['id']);
+        if (empty($row))                      return;
+
+        # обновить запись
+        # вернуть данные
+        self::dbUpdate(req::$body);
+        $list = self::dbGetAll();
+
+        res::json($list);
+    }
+
+    static function delete()
+    {
+        if (req::$path != '/product/delete')    return;
+        if (empty(req::$body['id']))            return;
+
+        $row    =   self::dbGetById(req::$body['id']);
+        if (empty($row))                      return;
+
+        # удалить запись
+        # вернуть данные
+        self::dbDelete(req::$body['id']);
+        $list = self::dbGetAll();
+
         res::json($list);
     }
 
@@ -44,29 +63,53 @@ class product
 
 
 
+
+
     # операции с бд
     #
-    static function dbGetAll()
+    private static function dbGetAll()
     {
         $list = db::select("
             SELECT
                 *
             FROM
-                `item`
+                `product`
             WHERE
                 `deletedAt` IS NULL
             ORDER BY
                 `id`
         ");
+
+        $example = [
+            'id'        => 2,
+            'name'      => 'Изделие-2',
+            'descr'     => 'Изделие-2',
+            'image'     => '',
+            'trashAt'   => null,
+            'top'       => [],
+            'mid'       => [],
+            'bot'       => [],
+            'prices'    => [],
+        ];
+
+        return [$example];
+
+        ui::vd($list);
+
         return $list;
+    }
+
+    private static function dbGetById($id)
+    {
+        return db::one("SELECT `id`  FROM `item`  WHERE `id` = :id",  ['id' => $id]);
     }
 
 
     # добавить в бд запись
     #
-    static function dbInsert()
+    private static function dbInsert()
     {
-        $lastId = db::query("
+        $lastId = db::query("-
             INSERT INTO `item` (
                   `name`
                 , `descr`
@@ -91,9 +134,9 @@ class product
 
     # обновить в бд запись
     #
-    static function dbUpdate($id)
+    private static function dbUpdate($id)
     {
-        db::query("
+        db::query("-
             UPDATE
                 `item`
             SET
@@ -113,7 +156,7 @@ class product
 
     # удалить из бд запись
     #
-    static function dbDelete($id)
+    private static function dbDelete($id)
     {
         db::query("
             UPDATE

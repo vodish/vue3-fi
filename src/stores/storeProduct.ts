@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { TRowId } from './storeItems'
-import { API_HEADERS, API_URL } from '@/utils/api'
+import { API_HEADERS, API_URL, apiRequest } from '@/utils/api'
 
 export type TProduct = {
   id: TRowId
@@ -24,35 +24,9 @@ export type TProductPrice = {
 
 
 export const useStoreProducts = defineStore('products', () => {
-  const list = ref<TProduct[]>([
-    {
-      id: 1,
-      name: 'Изделие-1',
-      descr: 'Изделие-1',
-      image: '',
-      trashAt: null,
-      top: [],
-      mid: [],
-      bot: [],
-      prices: [
-        // {uid: '2_3', top: 2, mid: 3, price: 333},
-        // {uid: '1_3', top: 1, mid: 3, price: 123},
-      ],
-    },
-    {
-      id: 2,
-      name: 'Изделие-2',
-      descr: 'Изделие-2',
-      image: '',
-      trashAt: null,
-      top: [],
-      mid: [],
-      bot: [],
-      prices: [],
-    },
 
-  ])
-
+  const list = ref<TProduct[]>([])
+  apiRequest<TProduct[]>('/product/getAll').then(res => list.value = res)
 
   const newrow: TProduct = {
     id: 'add',
@@ -68,18 +42,24 @@ export const useStoreProducts = defineStore('products', () => {
 
 
 
-  async function saveRow(data: object, action: 'insert' | 'update' | 'delete' = 'insert') {
-    const res = await fetch(`${API_URL}/product/save`, {
-      method: 'POST',
-      headers: API_HEADERS,
-      body: JSON.stringify({ ...data, action: action })
-    })
-    const json = await res.json() as TProduct[]
 
-    list.value = json || [];
+
+  function apiInsert(data: object) {
+    alert('apiInsert')
+    apiRequest<TProduct[]>('/product/insert', data).then(res => list.value = res)
+  }
+
+  function apiUpdate(data: object) {
+    alert('apiUpdate')
+    apiRequest<TProduct[]>('/product/update', data).then(res => list.value = res)
+  }
+
+  function apiDelete(id: number) {
+    alert('apiDelete')
+    apiRequest<TProduct[]>('/product/delete', { id }).then(res => list.value = res)
   }
 
 
 
-  return { list, newrow, saveRow }
+  return { list, newrow, apiInsert, apiUpdate, apiDelete }
 })
