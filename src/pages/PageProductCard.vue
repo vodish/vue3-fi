@@ -15,8 +15,6 @@ products.setRow(route.params.id as number | 'add')
 const row = computed(() => products.row)
 
 const prices = computed(() => {
-  if (!row.value) return []
-
   return row.value.prices.map(el => ({
     ...el,
     top: items.list[items.keys.get(el.top)],
@@ -24,13 +22,6 @@ const prices = computed(() => {
   }))
 })
 
-function handleInsert() {
-  products.apiInsert()
-}
-
-function handleUpdate() {
-  products.apiUpdate()
-}
 
 function handleDelete() {
   if (confirm('Удалить изделие?')) {
@@ -88,9 +79,9 @@ function handleDelete() {
 
 
     <div class="submit">
-      <span class="btn save" v-if="$route.params.id === 'add'" @click="handleInsert">Добавить</span>
+      <span class="btn save" v-if="$route.params.id === 'add'" @click="products.apiInsert()">Добавить</span>
       <div v-else>
-        <span class="btn save" @click="handleUpdate">Изменить</span>
+        <span class="btn save" @click="products.apiUpdate()">Изменить</span>
         <br /><br />
         <span class="btn save" @click="handleDelete">Удалить</span>
       </div>
