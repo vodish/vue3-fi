@@ -34,8 +34,8 @@ export const useStoreProducts = defineStore('products', () => {
       mid: [3],
       bot: [],
       prices: [
-        {uid: '2,3', top: 2, mid: 3, price: 333},
-        {uid: '1,3', top: 1, mid: 3, price: 123},
+        {uid: '2_3', top: 2, mid: 3, price: 333},
+        // {uid: '1_3', top: 1, mid: 3, price: 123},
       ],
     },
     {

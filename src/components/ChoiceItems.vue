@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const items = useStoreItems()
 const list = computed(() => items[props.target])
-const show = ref(false)
+const open = ref(false)
 const sels = computed(() => {
   return props.selected.map(id => {
     return items.list[items.keys.get(id)]
@@ -26,22 +26,24 @@ function isEmpty(id: TRowId) {
 
 function handleAdd(id: TRowId) {
   props.selected.push(id as number)
+  open.value = false
 }
 
 function handleDel(id: TRowId) {
   const idx = props.selected.indexOf(id as number)
-  props.selected.splice(idx, 1);
+  props.selected.splice(idx, 1)
+  open.value = false
 }
 
 </script>
 
 <template>
   <div class="list">
-    <div class="head" @click="show = !show">
+    <div class="head" @click="open = !open">
       <span>{{ props.head }}</span>
       <span>Выбрать</span>
     </div>
-    <div class="li store" v-if="show">
+    <div class="li store" v-if="open">
       <div class="thead">
         <div class="id">ID</div>
         <div class="name">Название</div>

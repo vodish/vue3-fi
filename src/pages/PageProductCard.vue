@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useStoreProducts } from '@/stores/storeProduct';
+import { useStoreProducts, type TProductPrice } from '@/stores/storeProduct';
 import { useStoreItems } from '@/stores/storeItems';
 import ChoiceItems from '@/components/ChoiceItems.vue'
 import { computed } from 'vue';
@@ -23,6 +23,25 @@ const row = computed(() => {
 
 
 const prices = computed(() => {
+  if (!row.value.top.length || !row.value.mid.length) {
+    row.value.prices = []
+    return;
+  }
+
+  let newPices: TProductPrice[] = []
+
+  row.value.top.map(top => {
+    row.value.mid.map(mid => {
+      const uid = `${top}_${mid}`
+      const price = row.value.prices.filter(el => el.uid === uid)[0]?.price || 0
+      newPices.push({ uid, top, mid, price })
+      // console.log(`${top}_${mid}`, price)
+    })
+  })
+
+  row.value.prices = newPices
+
+
   return row.value.prices.map(el => ({
     ...el,
     top: items.list[items.keys.get(el.top)],
@@ -35,7 +54,6 @@ const prices = computed(() => {
 
 
 <template>
-  
   <form class="card" v-if="row">
     <h2>{{ row.name }}</h2>
 
@@ -77,7 +95,6 @@ const prices = computed(() => {
     </div>
 
 
-
     <div class="submit">
       <span class="btn save">Сохранить</span>
     </div>
@@ -115,5 +132,4 @@ const prices = computed(() => {
   width: 12ch;
   text-align: right;
 }
-
 </style>
