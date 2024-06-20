@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useStoreItems } from '@/stores/storeItems';
-import { itemSave } from '@/utils/api'
-import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useStoreItems } from '@/stores/storeItems'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
@@ -20,7 +19,7 @@ const row = computed(() => {
 async function handleSave() {
   if (row.value.id === 'add') {
     await items.saveRow({ ...row.value }, 'insert')
-    const lastId =  items.list[items.list.length - 1].id
+    const lastId = items.list[items.list.length - 1].id
     router.push({ path: `/item/${lastId}` })
     alert('Добавлено');
   }
@@ -28,7 +27,7 @@ async function handleSave() {
     items.saveRow({ ...row.value }, 'update')
     alert('Сохранено');
   }
-  
+
 }
 
 
@@ -37,7 +36,6 @@ function handleDelete() {
     items.saveRow({ ...row.value }, 'delete')
   }
 }
-
 
 </script>
 
@@ -90,3 +88,9 @@ function handleDelete() {
     Материал удален.
   </div>
 </template>
+
+<style scoped>
+h2 {
+  min-height: 2em;
+}
+</style>
