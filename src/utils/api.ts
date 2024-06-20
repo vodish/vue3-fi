@@ -1,7 +1,7 @@
 import type { TItem } from "@/stores/storeItems"
 
-let API_URL = 'http://vue3-fi.backend'
-const API_HEADERS = {
+export let API_URL = 'https://api.vue3-fi.karasev.ru'
+export const API_HEADERS = {
   'Content-Type': 'application/json',
   'X-Auth': 'sdvsd',
 }
@@ -27,8 +27,7 @@ export async function itemSave(data: TItem) {
     },
     body: JSON.stringify(data)
   })
-  const json = await res.json()
-  console.log(json)
-
-  return json
+  const json = await res.json() as TItem[]
+  
+  return json || []
 }

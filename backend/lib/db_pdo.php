@@ -60,6 +60,7 @@ class db_pdo
             $this->statement->execute($params) || $this->printSql($sqlText);
         }
         catch (Exception $e) {
+            echo 'Exception';
             $this->printSql($sqlText);
         } 
         

@@ -8,17 +8,23 @@ const route = useRoute()
 const items = useStoreItems()
 
 const row = computed(() => {
-  if (route.params.id === 'add') return items.row;
+  if (route.params.id === 'add') return items.newrow;
 
   const row = items.list.filter(el => Number(route.params.id) === el.id)
 
-  return row[0] || items.row;
+  return row[0];
 })
 
 
 function handleSave() {
-  
-  itemSave({...row.value})
+  items.saveRow({...row.value}, 'update')
+}
+
+
+function handleDelete() {
+  if ( confirm('Удалить материал?') ) {
+    items.saveRow({...row.value }, 'delete')
+  }
 }
 
 
@@ -61,8 +67,12 @@ function handleSave() {
     </div>
 
     <div class="submit">
+      <span class="btn save" @click="handleDelete">Удалить</span>
       <span class="btn save" @click="handleSave">Сохранить</span>
     </div>
-  </form>
 
+  </form>
+  <div v-else>
+    Материал удален.
+  </div>
 </template>

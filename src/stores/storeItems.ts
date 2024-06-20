@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { itemGetAll } from '@/utils/api'
+import { API_URL, API_HEADERS, itemGetAll, itemSave } from '@/utils/api'
 
 export type TRowId = number | 'add'
 
@@ -22,7 +22,7 @@ export const useStoreItems = defineStore('items', () => {
 
   const keys = computed(() => {
     const map1 = new Map
-    list.value.map((el, i) => map1.set(el.id, i) )
+    list.value.map((el, i) => map1.set(el.id, i))
     return map1
   })
 
@@ -31,7 +31,7 @@ export const useStoreItems = defineStore('items', () => {
   const bot = computed(() => list.value.filter(el => el.target === 'bot'))
 
 
-  const row: TItem = {
+  const newrow: TItem = {
     id: 'add',
     name: 'Новый материал',
     descr: '',
@@ -43,5 +43,17 @@ export const useStoreItems = defineStore('items', () => {
   }
 
 
-  return { list, keys, top, mid, bot, row }
+  async function saveRow(data: object, action: 'update' | 'delete' = 'update') {
+    const res = await fetch(`${API_URL}/item/save`, {
+      method: 'POST',
+      headers: API_HEADERS,
+      body: JSON.stringify({ ...data, action: action })
+    })
+    const json = await res.json() as TItem[]
+
+    list.value = json || [];
+  }
+
+
+  return { list, keys, top, mid, bot, newrow, saveRow }
 })

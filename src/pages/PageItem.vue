@@ -4,8 +4,12 @@ import { useStoreItems } from '@/stores/storeItems';
 const items = useStoreItems()
 
 function handleDelete(id: number | 'add') {
-  alert(`Удалить ${id}`)
+  if (confirm('Удалить материал?')) {
+    items.saveRow({ id }, 'delete')
+  }
 }
+
+
 </script>
 
 <template>
