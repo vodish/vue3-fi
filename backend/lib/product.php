@@ -21,12 +21,16 @@ class product
 
         # добавить запись
         # вернуть данные
-        self::dbInsert(req::$body);
+        req::$body['id'] = self::dbInsert(req::$body);
         
+        # обновить зависимости
+        self::dbLinksData();
 
         $list = self::dbGetAll();
         res::json($list);
     }
+
+
 
     static function update()
     {
@@ -34,16 +38,21 @@ class product
         if (empty(req::$body))                  return;
 
         $row    =   self::dbGetById(req::$body['id']);
-        if (empty($row))                      return;
+        if (empty($row))                        return;
 
         # обновить запись
         # вернуть данные
         self::dbUpdate(req::$body);
 
+        # обновить зависимости
+        self::dbLinksData();
+
 
         $list = self::dbGetAll();
         res::json($list);
     }
+
+
 
     static function delete()
     {
@@ -51,10 +60,9 @@ class product
         if (empty(req::$body['id']))            return;
 
         $row    =   self::dbGetById(req::$body['id']);
-        if (empty($row))                      return;
+        if (empty($row))                        return;
 
         # удалить запись
-        # вернуть данные
         self::dbDelete(req::$body['id']);
         
         
@@ -175,5 +183,17 @@ class product
         ");
 
         return (int)req::$body['id'];
+    }
+
+
+    # обновить связанные данные
+    # product_top
+    # product_mid
+    # product_bot
+    # product_price
+    #
+    private static function dbLinksData()
+    {
+        
     }
 }

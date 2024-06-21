@@ -3,8 +3,10 @@ import { useStoreProducts } from '@/stores/storeProduct';
 
 const products = useStoreProducts()
 
-function handleDelete(id: number | 'add') {
-  alert(`Удалить ${id}`)
+function handleDelete(id: number, name: string) {
+  if ( confirm(`Удалить ${name}`) ) {
+    products.apiDelete(id)
+  }
 }
 </script>
 
@@ -23,7 +25,7 @@ function handleDelete(id: number | 'add') {
       </div>
       <div class="options">
         <RouterLink class="btn" :to="$route.path + '/' + p.id">Изменить</RouterLink>
-        <span class="btn del" @click="() => handleDelete(p.id)">Удалить</span>
+        <span class="btn del" @click="() => handleDelete(p.id, p.name)">Удалить</span>
       </div>
     </li>
   </ul>

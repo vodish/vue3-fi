@@ -39,7 +39,7 @@ function handleUpdate() {
 
 function handleDelete() {
   if (confirm('Удалить изделие?')) {
-    products.apiDelete()
+    products.apiDelete(row.value.id)
   }
 }
 
