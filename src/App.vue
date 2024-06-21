@@ -16,7 +16,7 @@ const addName = computed(() => {
     <RouterLink to="/product" :class="{ active: $route.path.startsWith('/product') }" active-class="active">Изделия</RouterLink>
     <RouterLink to="/item" :class="{ active: $route.path.startsWith('/item') }" active-class="active">Материалы</RouterLink>
     <div class="opt">
-      <RouterLink class="btn" :to="{path: $route.path + '/add'}" v-if="!$route.params.id">{{ addName }}</RouterLink>
+      <RouterLink class="btn" :to="$route.path + '/add'" v-if="!$route.params.id">{{ addName }}</RouterLink>
       <span class="btn back" @click="$router.go(-1)" v-if="$route.params.id">Вернуться</span>
     </div>
   </header>
