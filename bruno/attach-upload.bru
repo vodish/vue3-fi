@@ -1,0 +1,22 @@
+meta {
+  name: attach-upload
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/attach/upload
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-Auth: superAuth
+  : 
+  ~Content-Type: application/json
+}
+
+body:multipart-form {
+  file: @file(C:\Users\user\Desktop\20240602_094754.jpg)
+  some: eeee
+}

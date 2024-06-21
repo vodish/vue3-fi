@@ -47,3 +47,9 @@ product::getAll();
 product::insert();
 product::update();
 product::delete();
+#
+#
+# ручка загрузки картинки
+#
+attach::upload();
+

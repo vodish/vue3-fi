@@ -4,6 +4,7 @@ import { useStoreItems } from '@/stores/storeItems';
 import ChoiceItems from '@/components/ChoiceItems.vue'
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { apiUpload } from '@/utils/api';
 
 const router = useRouter()
 const route = useRoute()
@@ -45,6 +46,11 @@ function handleDelete() {
   }
 }
 
+async function handleUpload(e: Event) {
+  const url = await apiUpload((e.target as HTMLInputElement).files)
+  row.value.image = url || ''
+}
+
 </script>
 
 
@@ -70,7 +76,10 @@ function handleDelete() {
       <div class="fld">Картинка (<span
           @click="row.image = 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 50)"
           style="cursor: pointer;">пример</span>)</div>
-      <div class="val"><input type="text" v-model="row.image" /></div>
+      <div class="val upload">
+        <input type="text" v-model="row.image" />
+        <input type="file" accept=".jpeg,.jpg,.png" @change="handleUpload" />
+      </div>
     </div>
     <div class="image" v-if="row.image">
       <img :src="row.image" />

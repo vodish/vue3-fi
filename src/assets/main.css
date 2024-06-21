@@ -100,4 +100,11 @@ a:hover {
   text-align: right;
 }
 
+.card .image img {
+  max-width: 300px;
+}
+
+.card .upload {
+  display: flex;
+}
 

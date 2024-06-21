@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { API_URL, API_HEADERS, apiRequest } from '@/utils/api'
+import { apiRequest } from '@/utils/api'
 
 
 export type TItem = {
