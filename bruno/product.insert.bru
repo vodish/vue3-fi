@@ -1,0 +1,16 @@
+meta {
+  name: product.insert
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/product/insert
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Auth: superAuth
+}

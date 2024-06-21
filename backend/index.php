@@ -43,4 +43,6 @@ item::save();
 
 
 product::getAll();
-product::getAll();
+product::insert();
+product::update();
+product::delete();

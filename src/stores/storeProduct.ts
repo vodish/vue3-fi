@@ -82,12 +82,15 @@ export const useStoreProducts = defineStore('products', () => {
 
 
 
-  function apiInsert() {
-    apiRequest<TProduct[]>('/product/insert', { row }).then(res => list.value = res)
+  async function apiInsert() {
+    await apiRequest<TProduct[]>('/product/insert', row.value).then(res => list.value = res)
+    const lastId = list.value[list.value.length - 1].id;
+    console.log(lastId)
+    return lastId
   }
 
   function apiUpdate() {
-    apiRequest<TProduct[]>('/product/update', { row }).then(res => list.value = res)
+    apiRequest<TProduct[]>('/product/update', row.value).then(res => list.value = res)
   }
 
   function apiDelete() {

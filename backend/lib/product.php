@@ -22,8 +22,9 @@ class product
         # добавить запись
         # вернуть данные
         self::dbInsert(req::$body);
-        $list = self::dbGetAll();
+        
 
+        $list = self::dbGetAll();
         res::json($list);
     }
 
@@ -38,8 +39,9 @@ class product
         # обновить запись
         # вернуть данные
         self::dbUpdate(req::$body);
-        $list = self::dbGetAll();
 
+
+        $list = self::dbGetAll();
         res::json($list);
     }
 
@@ -54,8 +56,9 @@ class product
         # удалить запись
         # вернуть данные
         self::dbDelete(req::$body['id']);
+        
+        
         $list = self::dbGetAll();
-
         res::json($list);
     }
 
@@ -110,25 +113,6 @@ class product
         }
 
         res::json($list);
-        
-
-        $example = [
-            'id'        => 2,
-            'name'      => 'Изделие-2',
-            'descr'     => 'Изделие-2',
-            'image'     => '',
-            'trashAt'   => null,
-            'top'       => [],
-            'mid'       => [],
-            'bot'       => [],
-            'prices'    => [],
-        ];
-
-        return [$example, [...$example, 'id' => 3]];
-
-        ui::vd($list);
-
-        return $list;
     }
 
     private static function dbGetById($id)
@@ -160,20 +144,20 @@ class product
 
     # обновить в бд запись
     #
-    private static function dbUpdate($id)
+    private static function dbUpdate()
     {
         db::query("
             UPDATE
-                `item`
+                `product`
             SET
                   `name` = " . db::v(req::$body['name']) .  "
                 , `descr` = " . db::v(req::$body['descr']) .  "
                 , `image` = " . db::v(req::$body['image']) .  "
             WHERE
-                `id` = " . db::v($id) .  "
+                `id` = " . db::v(req::$body['id']) .  "
         ");
 
-        return $id;
+        return (int)req::$body['id'];
     }
 
 
@@ -183,13 +167,13 @@ class product
     {
         db::query("
             UPDATE
-                `item`
+                `product`
             SET
                   `deleted_at` = NOW()
             WHERE
                 `id` = " . db::v($id) .  "
         ");
 
-        return $id;
+        return (int)req::$body['id'];
     }
 }

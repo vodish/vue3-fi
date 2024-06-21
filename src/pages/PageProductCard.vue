@@ -3,9 +3,9 @@ import { useStoreProducts } from '@/stores/storeProduct';
 import { useStoreItems } from '@/stores/storeItems';
 import ChoiceItems from '@/components/ChoiceItems.vue'
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-// const router = useRouter()
+const router = useRouter()
 const route = useRoute()
 const products = useStoreProducts()
 const items = useStoreItems()
@@ -25,17 +25,22 @@ const prices = computed(() => {
 })
 
 
-function handleInsert() {
-  products.apiInsert()
+async function handleInsert() {
+  const lastId = await products.apiInsert()
+  router.push({ path: `/product/${lastId}` })
+  alert('Добавлено');
 }
+
 
 function handleUpdate() {
   products.apiUpdate()
+  alert('Обновлено');
 }
 
 function handleDelete() {
   if (confirm('Удалить изделие?')) {
     products.apiDelete()
+    
   }
 }
 
