@@ -16,31 +16,35 @@ const row = computed(() => {
 })
 
 
-async function handleSave() {
-  if (row.value.id === 'add') {
-    await items.saveRow({ ...row.value }, 'insert')
-    const lastId = items.list[items.list.length - 1].id
-    router.push({ path: `/item/${lastId}` })
-    alert('Добавлено');
-  }
-  else {
-    items.saveRow({ ...row.value }, 'update')
-    alert('Сохранено');
-  }
 
+async function handleInsert() {
+  const lastId = await items.apiInsert(row.value)
+  router.push({ path: `/item/${lastId}` })
+  alert('Добавлено');
+}
+
+
+function handleUpdate() {
+  items.apiUpdate(row.value)
+  alert('Обновлено');
 }
 
 
 function handleDelete() {
   if (confirm('Удалить материал?')) {
-    items.saveRow({ ...row.value }, 'delete')
+    items.apiDelete(row.value.id)
+    row.value.deleted = true
   }
 }
 
 </script>
 
 <template>
-  <form class="card" v-if="row">
+  <div v-if="row.deleted">
+    Материал удален.
+  </div>
+
+  <form class="card" v-else>
     <h2>{{ row.name }}</h2>
 
     <div class="row">
@@ -77,16 +81,16 @@ function handleDelete() {
       <img :src="row.image" />
     </div>
 
-    <div class="submit">
-      <span class="btn save" @click="handleSave">Сохранить</span>
+    <div class="submit" v-if="row.id < 0">
+      <span class="btn save" @click="handleInsert">Добавить</span>
     </div>
-    <div class="submit">
+    <div class="submit" v-else>
+      <span class="btn save" @click="handleUpdate">Изменить</span>
+      <br /><br />
       <span class="btn save" @click="handleDelete">Удалить</span>
     </div>
   </form>
-  <div v-else>
-    Материал удален.
-  </div>
+
 </template>
 
 <style scoped>

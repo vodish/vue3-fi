@@ -2,10 +2,9 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { API_URL, API_HEADERS, apiRequest } from '@/utils/api'
 
-export type TRowId = number | 'add'
 
 export type TItem = {
-  id: TRowId
+  id: number
   name: string
   descr: string
   unit: string
@@ -13,13 +12,14 @@ export type TItem = {
   target: 'top' | 'mid' | 'bot'
   image: string
   trashAt: Date | null
+  deleted?: boolean
 }
 
 export const useStoreItems = defineStore('items', () => {
   const list = ref<TItem[]>([]);
 
-  apiRequest<TItem[]>('/item/getAll').then( res => list.value = res )
-  
+  apiRequest<TItem[]>('/item/getAll').then(res => list.value = res)
+
 
 
 
@@ -35,7 +35,7 @@ export const useStoreItems = defineStore('items', () => {
 
 
   const newrow: TItem = {
-    id: 'add',
+    id: -1,
     name: 'Новый материал',
     descr: '',
     unit: '',
@@ -46,17 +46,24 @@ export const useStoreItems = defineStore('items', () => {
   }
 
 
-  async function saveRow(data: object, action: 'insert' | 'update' | 'delete' = 'insert') {
-    const res = await fetch(`${API_URL}/item/save`, {
-      method: 'POST',
-      headers: API_HEADERS,
-      body: JSON.stringify({ ...data, action: action })
-    })
-    const json = await res.json() as TItem[]
 
-    list.value = json || [];
+  async function apiInsert(row: TItem) {
+    await apiRequest<TItem[]>('/item/insert', row).then(res => list.value = res)
+
+    return list.value[list.value.length - 1].id
+  }
+
+  function apiUpdate(row: TItem) {
+    apiRequest<TItem[]>('/item/update', row).then(res => list.value = res)
+  }
+
+  function apiDelete(id: number) {
+    apiRequest<TItem[]>('/item/delete', { id }).then(res => list.value = res)
   }
 
 
-  return { list, keys, top, mid, bot, newrow, saveRow }
+  return {
+    list, keys, top, mid, bot, newrow,
+    apiInsert, apiUpdate, apiDelete,
+  }
 })

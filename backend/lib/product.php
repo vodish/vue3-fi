@@ -22,7 +22,7 @@ class product
         # добавить запись
         # вернуть данные
         req::$body['id'] = self::dbInsert(req::$body);
-        
+
         # обновить зависимости
         self::dbLinksUpdate();
 
@@ -64,8 +64,8 @@ class product
 
         # удалить запись
         self::dbDelete(req::$body['id']);
-        
-        
+
+
         $list = self::dbGetAll();
         res::json($list);
     }
@@ -112,12 +112,12 @@ class product
             ORDER BY
                 `id`
         ");
-        
-        for($list=[];  $v = db::fetch(); $list[] = $v) {
-            $v['top']       =   $v['top']?      json_decode($v['top'], true):       [];
-            $v['mid']       =   $v['mid']?      json_decode($v['mid'], true):       [];
-            $v['bot']       =   $v['bot']?      json_decode($v['bot'], true):       [];
-            $v['prices']    =   $v['prices']?   json_decode($v['prices'], true):    [];
+
+        for ($list = []; $v = db::fetch(); $list[] = $v) {
+            $v['top']       =   $v['top'] ?      json_decode($v['top'], true) :       [];
+            $v['mid']       =   $v['mid'] ?      json_decode($v['mid'], true) :       [];
+            $v['bot']       =   $v['bot'] ?      json_decode($v['bot'], true) :       [];
+            $v['prices']    =   $v['prices'] ?   json_decode($v['prices'], true) :    [];
         }
 
         res::json($list);
@@ -187,13 +187,45 @@ class product
 
 
     # обновить связанные данные
-    # product_top
-    # product_mid
-    # product_bot
-    # product_price
-    #
+    # 
+    # 
     private static function dbLinksUpdate()
     {
+        # собрать временную таблицу для материалов
+        $tItems = [];
+        #
+        foreach (['top', 'mid', 'bot'] as $target) {
+            foreach (req::$body[$target] as $v) {
+                $tItems[] = "SELECT '$target' as `target`, " . (0 + $v) . " as `item`";
+            }
+        }
+        #
+        db::query("CREATE TEMPORARY TABLE `tItems` " . implode(' UNION ', $tItems));
+        #
+        #
+        # обновить текущие материалы
+        $productId  =   (int)req::$body['id'];
+        #
+        db::query("DELETE FROM `product_top`  WHERE `product` = $productId");
+        db::query("DELETE FROM `product_mid`  WHERE `product` = $productId");
+        db::query("DELETE FROM `product_bot`  WHERE `product` = $productId");
+        #
+        db::query("INSERT INTO `product_top`  SELECT $productId, `item`  FROM `tItems`  WHERE `target` = 'top'");
+        db::query("INSERT INTO `product_mid`  SELECT $productId, `item`  FROM `tItems`  WHERE `target` = 'mid'");
+        db::query("INSERT INTO `product_bot`  SELECT $productId, `item`  FROM `tItems`  WHERE `target` = 'bot'");
 
+
+
+        # собрать временную таблицу для цен
+        $tPrices = [];
+        #
+        foreach (req::$body['prices'] as $v) {
+            $tPrices[] = "($productId, " . (0 + $v['top']) . ", " . (0 + $v['mid']) . ", " . (0 + $v['price']) . ")";
+        }
+        #
+        # обновить цены
+        #
+        db::query("DELETE FROM `product_price`  WHERE `product` = $productId ");
+        db::query("INSERT INTO `product_price`  VALUES " . implode(",\n", $tPrices));
     }
 }

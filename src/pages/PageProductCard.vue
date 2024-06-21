@@ -17,6 +17,8 @@ const row = computed(() => {
 })
 
 const prices = computed(() => {
+  if ( items.list.length === 0  ) return []
+
   return products.row.prices.map(el => ({
     ...el,
     top: items.list[items.keys.get(el.top)],
@@ -74,11 +76,8 @@ function handleDelete() {
       <img :src="row.image" />
     </div>
 
-    <br /> <br />
     <ChoiceItems head="Верх" target="top" :selected="row.top" />
-    <br /> <br />
     <ChoiceItems head="Cередина" target="mid" :selected="row.mid" />
-    <br /> <br />
     <ChoiceItems head="Низ" target="bot" :selected="row.bot" />
 
 

@@ -13,32 +13,73 @@ class item
     }
 
 
-    static function save()
+    static function insert()
     {
-        if (req::$path != '/item/save')    return;
+        if (req::$path != '/item/insert')   return;
+        if (empty(req::$body))              return;
 
-
-        # добавить запись
-        # обновить
-        # удалить
-        #
-        if (req::$body['id'] === 'add') {
-            self::dbInsert();
-        } elseif (req::$body['id'] > 0) {
-            $item = db::one("SELECT `id`  FROM `item`  WHERE `id` = :id",  ['id' => req::$body['id']]);
-
-            if ($item && req::$body['action'] === 'update') {
-                self::dbUpdate($item['id']);
-            }
-            if ($item && req::$body['action'] === 'delete') {
-                self::dbDelete($item['id']);
-            }
-        }
-
+        self::dbInsert();
 
         $list = self::dbGetAll();
         res::json($list);
     }
+
+    static function update()
+    {
+        if (req::$path != '/item/update')   return;
+        if (empty(req::$body))              return;
+
+        $item   =   self::dbOne(req::$body['id']);
+        if (empty($item))                   return;
+
+        self::dbUpdate($item['id']);
+
+        $list = self::dbGetAll();
+        res::json($list);
+    }
+
+    static function delete()
+    {
+        if (req::$path != '/item/delete')   return;
+        if (empty(req::$body))              return;
+
+        $item   =   self::dbOne(req::$body['id']);
+        if (empty($item))                   return;
+
+        self::dbDelete($item['id']);
+
+        $list = self::dbGetAll();
+        res::json($list);
+    }
+
+
+
+    // static function save()
+    // {
+    //     if (req::$path != '/item/save')    return;
+
+
+    //     # добавить запись
+    //     # обновить
+    //     # удалить
+    //     #
+    //     if (req::$body['id'] === 'add') {
+    //         self::dbInsert();
+    //     } elseif (req::$body['id'] > 0) {
+    //         $item = db::one("SELECT `id`  FROM `item`  WHERE `id` = :id",  ['id' => req::$body['id']]);
+
+    //         if ($item && req::$body['action'] === 'update') {
+    //             self::dbUpdate($item['id']);
+    //         }
+    //         if ($item && req::$body['action'] === 'delete') {
+    //             self::dbDelete($item['id']);
+    //         }
+    //     }
+
+
+    //     $list = self::dbGetAll();
+    //     res::json($list);
+    // }
 
 
 
@@ -59,6 +100,11 @@ class item
                 `id`
         ");
         return $list;
+    }
+
+    private static function dbOne($id)
+    {
+        return db::one("SELECT `id`  FROM `item`  WHERE `id` = " . (0 + $id));
     }
 
 

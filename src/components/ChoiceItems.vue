@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useStoreItems, type TRowId } from '@/stores/storeItems';
+import { useStoreItems } from '@/stores/storeItems';
 import { useStoreProducts } from '@/stores/storeProduct';
 import { computed, ref } from 'vue';
 
@@ -17,7 +17,7 @@ const open = ref(false)
 
 
 
-function isEmpty(id: TRowId) {
+function isEmpty(id: number) {
   return props.selected.indexOf(id as number) < 0
 }
 

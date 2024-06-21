@@ -10,7 +10,7 @@ ini_set('display_errors', 'On');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header('Access-Control-Allow-Headers: Content-Type, X-Auth');
-if ( @$_SERVER['HTTP_X_AUTH'] !== 'superAuth' )  die;
+if (@$_SERVER['HTTP_X_AUTH'] !== 'superAuth')  die;
 #
 #
 # авто подключение классов
@@ -32,16 +32,17 @@ req::parse();
 
 
 
-# ручки
-#
 
-# материалы
+# ручки материалов
 #
-// ui::vd(req::$path);
 item::getAll();
-item::save();
-
-
+item::insert();
+item::update();
+item::delete();
+#
+#
+# ручки изделий
+#
 product::getAll();
 product::insert();
 product::update();
