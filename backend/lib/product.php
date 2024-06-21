@@ -24,7 +24,7 @@ class product
         req::$body['id'] = self::dbInsert(req::$body);
         
         # обновить зависимости
-        self::dbLinksData();
+        self::dbLinksUpdate();
 
         $list = self::dbGetAll();
         res::json($list);
@@ -45,7 +45,7 @@ class product
         self::dbUpdate(req::$body);
 
         # обновить зависимости
-        self::dbLinksData();
+        self::dbLinksUpdate();
 
 
         $list = self::dbGetAll();
@@ -192,8 +192,8 @@ class product
     # product_bot
     # product_price
     #
-    private static function dbLinksData()
+    private static function dbLinksUpdate()
     {
-        
+
     }
 }
