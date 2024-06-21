@@ -10,11 +10,19 @@ const route = useRoute()
 const products = useStoreProducts()
 const items = useStoreItems()
 
-products.setRow(route.params.id as number | 'add')
 
-const row = computed(() => products.row)
+
+const row = computed(() => {
+  if (products.list.length > 0 && route.params.id !== 'add') {
+    products.setRow(Number(route.params.id))
+  }
+  return products.row
+})
 
 const prices = computed(() => {
+  if (!row.value) return;
+  if (!items.list.length) return;
+
   return row.value.prices.map(el => ({
     ...el,
     top: items.list[items.keys.get(el.top)],
@@ -41,7 +49,7 @@ function handleDelete() {
 
 
 <template>
-  <div v-if="row.deleted">
+  <div v-if="row?.deleted">
     Изделие удалено.
   </div>
   <form class="card" v-else-if="row">

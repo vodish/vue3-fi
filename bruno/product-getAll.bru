@@ -1,0 +1,16 @@
+meta {
+  name: product-getAll
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/product/getAll
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  X-Auth: superAuth
+}

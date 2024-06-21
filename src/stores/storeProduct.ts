@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { apiRequest } from '@/utils/api'
 
@@ -23,12 +23,11 @@ export type TProductPrice = {
 }
 
 
-export const useStoreProducts = defineStore('products', () => {
 
+export const useStoreProducts = defineStore('products', () => {
   const list = ref<TProduct[]>([])
   apiRequest<TProduct[]>('/product/getAll').then(res => list.value = res)
-
-
+  
   const row = ref<TProduct>({
     id: -1,
     name: 'Новое изделие',
@@ -41,22 +40,23 @@ export const useStoreProducts = defineStore('products', () => {
     prices: [],
   })
 
-  function setRow(id: number | 'add') {
-    if ( id === 'add' ) return;
-    
+
+  function setRow(id: number) {
     const find = list.value.find(el => el.id === id)
     if (find) {
       row.value = find
+      // setPrices()
     }
-    setPrices()
   }
+
+
 
   function setPrices() {
     const newPices: TProductPrice[] = []
 
     row.value.top.map(top => {
       row.value.mid.map(mid => {
-        const uid = `${top}_${mid}`
+        const uid = `${top},${mid}`
         const price = row.value?.prices.filter(el => el.uid === uid)[0]?.price || 0
         newPices.push({ uid, top, mid, price })
       })
@@ -64,6 +64,7 @@ export const useStoreProducts = defineStore('products', () => {
 
     return row.value.prices = newPices
   }
+
 
 
   function addItem(target: 'top' | 'mid' | 'bot', id: number) {
@@ -74,6 +75,8 @@ export const useStoreProducts = defineStore('products', () => {
     row.value[target] = row.value[target].filter(el => el !== id)
     setPrices()
   }
+
+
 
   function apiInsert() {
     apiRequest<TProduct[]>('/product/insert', { row }).then(res => list.value = res)
@@ -91,7 +94,7 @@ export const useStoreProducts = defineStore('products', () => {
 
 
   return {
-    list, row,
-    setRow, addItem, delItem, apiInsert, apiUpdate, apiDelete,
+    list, row, 
+    setRow, setPrices, addItem, delItem, apiInsert, apiUpdate, apiDelete,
   }
 })

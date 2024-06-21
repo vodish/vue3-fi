@@ -69,16 +69,48 @@ class product
     #
     private static function dbGetAll()
     {
-        $list = db::select("
+        db::query("
             SELECT
-                *
+                `product`.*
+                , (SELECT CONCAT('[', GROUP_CONCAT(`item`), ']')  FROM product_top  WHERE `product` = `product`.`id`) AS top
+                , (SELECT CONCAT('[', GROUP_CONCAT(`item`), ']')  FROM product_mid  WHERE `product` = `product`.`id`) AS mid
+                , (SELECT CONCAT('[', GROUP_CONCAT(`item`), ']')  FROM product_bot  WHERE `product` = `product`.`id`) AS bot
+                ,(
+                    SELECT
+                        CONCAT(
+                            '['
+                            ,GROUP_CONCAT(JSON_OBJECT(
+                                'uid', CONCAT(`top_item`, ',', `mid_item`)
+                                ,'top', `top_item`
+                                ,'mid', `mid_item`
+                                ,'price', `price`
+                            ))
+                            ,']'
+                        ) AS t
+                    FROM
+                        product_price
+                    WHERE
+                        `product`= `product`.`id`
+                )
+                AS prices
+                        
             FROM
                 `product`
             WHERE
-                `deletedAt` IS NULL
+                `deleted_at` IS NULL
             ORDER BY
                 `id`
         ");
+        
+        for($list=[];  $v = db::fetch(); $list[] = $v) {
+            $v['top']       =   $v['top']?      json_decode($v['top'], true):       [];
+            $v['mid']       =   $v['mid']?      json_decode($v['mid'], true):       [];
+            $v['bot']       =   $v['bot']?      json_decode($v['bot'], true):       [];
+            $v['prices']    =   $v['prices']?   json_decode($v['prices'], true):    [];
+        }
+
+        res::json($list);
+        
 
         $example = [
             'id'        => 2,
@@ -101,7 +133,7 @@ class product
 
     private static function dbGetById($id)
     {
-        return db::one("SELECT `id`  FROM `item`  WHERE `id` = :id",  ['id' => $id]);
+        return db::one("SELECT `id`  FROM `product`  WHERE `id` = :id",  ['id' => $id]);
     }
 
 
@@ -109,21 +141,15 @@ class product
     #
     private static function dbInsert()
     {
-        $lastId = db::query("-
-            INSERT INTO `item` (
+        $lastId = db::query("
+            INSERT INTO `product` (
                   `name`
                 , `descr`
-                , `unit`
-                , `price`
-                , `target`
                 , `image`
             )
             VALUES (
                   " . db::v(req::$body['name']) .  "
                 , " . db::v(req::$body['descr']) .  "
-                , " . db::v(req::$body['unit']) .  "
-                , " . db::v(req::$body['price']) .  "
-                , " . db::v(req::$body['target']) .  "
                 , " . db::v(req::$body['image']) .  "
             )
         ");
@@ -136,15 +162,12 @@ class product
     #
     private static function dbUpdate($id)
     {
-        db::query("-
+        db::query("
             UPDATE
                 `item`
             SET
                   `name` = " . db::v(req::$body['name']) .  "
                 , `descr` = " . db::v(req::$body['descr']) .  "
-                , `unit` = " . db::v(req::$body['unit']) .  "
-                , `price` = " . db::v(req::$body['price']) .  "
-                , `target` = " . db::v(req::$body['target']) .  "
                 , `image` = " . db::v(req::$body['image']) .  "
             WHERE
                 `id` = " . db::v($id) .  "
@@ -162,7 +185,7 @@ class product
             UPDATE
                 `item`
             SET
-                  `deletedAt` = NOW()
+                  `deleted_at` = NOW()
             WHERE
                 `id` = " . db::v($id) .  "
         ");

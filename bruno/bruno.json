@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "vue3-fi",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

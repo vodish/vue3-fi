@@ -54,7 +54,7 @@ class item
             FROM
                 `item`
             WHERE
-                `deletedAt` IS NULL
+                `deleted_at` IS NULL
             ORDER BY
                 `id`
         ");
@@ -119,7 +119,7 @@ class item
             UPDATE
                 `item`
             SET
-                  `deletedAt` = NOW()
+                  `deleted_at` = NOW()
             WHERE
                 `id` = " . db::v($id) .  "
         ");

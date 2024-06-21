@@ -37,7 +37,8 @@ function handleDel(id: number) {
   <div class="list">
     <div class="head" @click="open = !open">
       <span>{{ props.head }}</span>
-      <span>Выбрать</span>
+      <span v-if="!open">Развернуть</span>
+      <span v-else>Свернуть</span>
     </div>
     <div class="li store">
       <div class="thead" v-if="open">
@@ -49,7 +50,7 @@ function handleDel(id: number) {
         <div class="tr" v-if="open || !isEmpty(el.id)">
           <div class="id">{{ el.id }}</div>
           <div class="name">{{ el.name }}</div>
-          <div class="select">
+          <div class="select" v-if="open">
             <span class="btn" @click="handleAdd(el.id as number)" v-if="isEmpty(el.id)">Добавить</span>
             <span class="btn" @click="handleDel(el.id as number)" v-else>Удалить</span>
           </div>
@@ -66,7 +67,8 @@ function handleDel(id: number) {
 <style scoped>
 .list > .head {
   border-bottom: dotted 1px #ccc;
-  padding: 10px 10px 10px 0;
+  margin-bottom: 0.5em;
+  padding: 10px 0;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -85,12 +87,11 @@ function handleDel(id: number) {
 
 .li > div {
   display: flex;
-  padding: 2px 10px;
-  border: solid 1px transparent;
+  padding: 4px 0;
 }
 
-.li > .tr:hover {
-  border-color: #ccc !important;
+.li > .tr {
+  border-bottom: dotted 1px #333;
 }
 
 .li > div .id {
