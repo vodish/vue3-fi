@@ -11,24 +11,19 @@ const products = useStoreProducts()
 const items = useStoreItems()
 
 
-
 const row = computed(() => {
-  if (products.list.length > 0 && route.params.id !== 'add') {
-    products.setRow(Number(route.params.id))
-  }
+  products.setRow(route.params.id as string)
   return products.row
 })
 
 const prices = computed(() => {
-  if (!row.value) return;
-  if (!items.list.length) return;
-
-  return row.value.prices.map(el => ({
+  return products.row.prices.map(el => ({
     ...el,
     top: items.list[items.keys.get(el.top)],
     mid: items.list[items.keys.get(el.mid)],
   }))
 })
+
 
 function handleInsert() {
   products.apiInsert()
@@ -92,6 +87,9 @@ function handleDelete() {
       </div>
     </div>
 
+    <!-- <pre>
+      {{ row }}
+    </pre> -->
 
     <div class="submit">
       <span class="btn save" v-if="$route.params.id === 'add'" @click="handleInsert">Добавить</span>

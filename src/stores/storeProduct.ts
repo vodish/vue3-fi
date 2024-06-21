@@ -27,8 +27,8 @@ export type TProductPrice = {
 export const useStoreProducts = defineStore('products', () => {
   const list = ref<TProduct[]>([])
   apiRequest<TProduct[]>('/product/getAll').then(res => list.value = res)
-  
-  const row = ref<TProduct>({
+
+  const addrow: TProduct = {
     id: -1,
     name: 'Новое изделие',
     descr: '',
@@ -38,17 +38,21 @@ export const useStoreProducts = defineStore('products', () => {
     mid: [],
     bot: [],
     prices: [],
-  })
-
-
-  function setRow(id: number) {
-    const find = list.value.find(el => el.id === id)
-    if (find) {
-      row.value = find
-      // setPrices()
-    }
   }
 
+  const row = ref<TProduct>(addrow)
+
+
+  function setRow(id: string) {
+    if (id === 'add') {
+      row.value = addrow
+    }
+
+    const find = list.value.find(el => el.id === Number(id))
+    if (find) row.value = find
+
+    setPrices()
+  }
 
 
   function setPrices() {
@@ -94,7 +98,7 @@ export const useStoreProducts = defineStore('products', () => {
 
 
   return {
-    list, row, 
+    list, row,
     setRow, setPrices, addItem, delItem, apiInsert, apiUpdate, apiDelete,
   }
 })

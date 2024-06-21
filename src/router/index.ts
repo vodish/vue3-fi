@@ -9,9 +9,9 @@ const router = createRouter({
   routes: [
     { path: '/', redirect: '/product' },
     { path: '/product', name: "product", component: PageProduct },
-    { path: '/product/:id', name: "productId", component: PageProductCard },
+    { path: '/product/:id', name: "product.id", component: PageProductCard },
     { path: '/item', name: "item", component: PageItem },
-    { path: '/item/:id', name: "itemId", component: PageItemCard },
+    { path: '/item/:id', name: "item.id", component: PageItemCard },
   ]
 })
 
