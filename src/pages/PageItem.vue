@@ -3,9 +3,9 @@ import { useStoreItems } from '@/stores/storeItems';
 
 const items = useStoreItems()
 
-function handleDelete(id: number | 'add') {
+function handleDelete(id: number) {
   if (confirm('Удалить материал?')) {
-    items.saveRow({ id }, 'delete')
+    items.apiDelete(id)
   }
 }
 
