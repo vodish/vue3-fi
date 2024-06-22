@@ -9,9 +9,9 @@
 
 Код: https://github.com/vodish/vue3-fi
 
-Фронт: vue3 ts -- https://github.com/vodish/vue3-fi/dist
+Фронт: vue3 ts -- https://github.com/vodish/vue3-fi/tree/master/dist
 
-Бек: php  -- https://github.com/vodish/vue3-fi/backend
+Бек: php  -- https://github.com/vodish/vue3-fi/tree/master/backend
 
 База: mysql  -- https://github.com/vodish/vue3-fi/tree/master/mysql
 
