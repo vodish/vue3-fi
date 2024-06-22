@@ -13,6 +13,16 @@
 
 Бек: php  -- https://github.com/vodish/vue3-fi/backend
 
+База: mysql  -- https://github.com/vodish/vue3-fi/tree/master/mysql
+
+Время: неделя. 
+- изучение тз
+- макетирование
+- архитектура бд
+- реализация фронта
+- реализация бека
+- деплой
+- отчет
 
 ##### ТЗ
 Стек: PHP 8+, JavaScript, MySQL, браузер Google Chrome.
