@@ -13,6 +13,7 @@ class attach
 
         $file   =   $dir . '/' . md5($_FILES['file']['tmp_name']) . '.' . preg_replace('#.*\.#', '', $_FILES['file']['name']);
         move_uploaded_file($_FILES['file']['tmp_name'], $file);
+        chmod($file, 0777);
 
         die(json_encode(['url' => req::site() . '/' . $file]));
     }
