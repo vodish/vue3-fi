@@ -11,6 +11,7 @@ export type TProduct = {
   top: number[]
   mid: number[]
   bot: number[]
+  price_range: string
   prices: TProductPrice[]
   deleted?: boolean
 }
@@ -37,6 +38,7 @@ export const useStoreProducts = defineStore('products', () => {
     top: [],
     mid: [],
     bot: [],
+    price_range: '',
     prices: [],
   }
 

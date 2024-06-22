@@ -16,8 +16,8 @@ function handleDelete(id: number, name: string) {
       <div class="row">
         <div class="name"><RouterLink :to="$route.path + '/' + p.id">{{ p.name }}</RouterLink></div>
         <div class="descr">{{ p.descr }}</div>
-        <div class="price">price: ....</div>
-        <div class="items">
+        <div class="tth">
+          <span class="range"> price: {{p.price_range}} &#8381;</span>
           <span class="top">top: {{ p.top }}</span>
           <span class="mid">mid: {{ p.mid }}</span>
           <span class="bot">bot: {{ p.bot }}</span>
@@ -54,12 +54,9 @@ ul > li:hover {
   font-size: 1.4em;
   margin-bottom: 0.3em;
  }
-.row .info {
+.row .tth {
   display: flex;
-  gap: 1em;
+  gap: 2em;
 }
-.row .items {
-  display: flex;
-  gap: 2ch;
-}
+
 </style>

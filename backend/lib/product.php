@@ -86,6 +86,7 @@ class product
                 , (SELECT CONCAT('[', GROUP_CONCAT(`item`), ']')  FROM product_top  WHERE `product` = `product`.`id`) AS top
                 , (SELECT CONCAT('[', GROUP_CONCAT(`item`), ']')  FROM product_mid  WHERE `product` = `product`.`id`) AS mid
                 , (SELECT CONCAT('[', GROUP_CONCAT(`item`), ']')  FROM product_bot  WHERE `product` = `product`.`id`) AS bot
+                , (SELECT CONCAT(MIN(`price`), '...', MAX(`price`))  FROM `product_price`  WHERE `product` = `product`.`id` ) AS price_range 
                 ,(
                     SELECT
                         CONCAT(
