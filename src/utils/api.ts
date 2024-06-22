@@ -1,5 +1,5 @@
 
-export let API_URL = 'https://api.vue3-fi.karasev.ru'
+export let API_URL = 'https://api.vue3fi.karasev.ru'
 export const API_HEADERS = {
   'Content-Type': 'application/json',
   'X-Auth': 'superAuth',
@@ -34,7 +34,7 @@ export async function apiUpload(fileList: FileList | null) {
   })
 
   const json = await res.json() as {url: string}
-  
+
   return json.url
 }
 
