@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { apiRequest } from '@/utils/api'
+import { apiProductAll } from '@/utils/apiAxios'
 
 export type TProduct = {
   id: number
@@ -28,6 +29,9 @@ export type TProductPrice = {
 export const useStoreProducts = defineStore('products', () => {
   const list = ref<TProduct[]>([])
   apiRequest<TProduct[]>('/product/getAll').then(res => list.value = res)
+
+  const resProduct = apiProductAll()
+  console.log(resProduct)
 
   const addrow: TProduct = {
     id: -1,
@@ -86,7 +90,7 @@ export const useStoreProducts = defineStore('products', () => {
 
   async function apiInsert() {
     await apiRequest<TProduct[]>('/product/insert', row.value).then(res => list.value = res)
-    
+
     return list.value[list.value.length - 1].id
   }
 
