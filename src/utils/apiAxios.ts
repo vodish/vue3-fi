@@ -11,7 +11,7 @@ if (/localhost/.test(window.location.host)) {
 
 const axiosInstance = axios.create({
   baseURL,
-  // withCredentials: true,
+  withCredentials: true,
   headers: {
     // Accept: 'application/json',
     'Content-Type': 'application/json',
