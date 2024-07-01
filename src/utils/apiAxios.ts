@@ -5,6 +5,7 @@ import type { TProduct } from "@/stores/storeProduct"
 let baseURL = 'https://api.vue3fi.karasev.ru'
 if (/localhost/.test(window.location.host)) {
   baseURL = 'http://vue3-fi.backend'
+  baseURL = 'http://localhost:3100'
 }
 
 
@@ -19,25 +20,16 @@ const axiosInstance = axios.create({
 })
 
 
-function tryCatch<T>(tryFn: () => {}, errFn?: () => {}): T | undefined {
-  try {
-    return tryFn() as T
-  }
-  catch (error) {
-    if (errFn) return errFn() as any
-    else if (axios.isAxiosError(error) && error.response) {
-      const message = error.response.data.message
-      console.error(message)
-    }
-  }
-}
-
 export async function apiProductAll() {
-
+  
   try {
-    const res = await axiosInstance.post('/product/getAll')
-    console.log(res);
-    return res.data;
+    const res = await axiosInstance.get<TProduct[]>('/setcookie')
+    const data = res.data
+    
+    console.log(data);
+    
+    return data;
+
   } catch (error) {
     console.error(error);
   }
@@ -50,3 +42,18 @@ export async function apiProductAll() {
 export function userSignIn(payload: { name: string, pass: string }) {
   return axiosInstance.post('/signIn', payload)
 }
+
+
+
+// function tryCatch<T>(tryFn: () => {}, errFn?: () => {}): T | undefined {
+//   try {
+//     return tryFn() as T
+//   }
+//   catch (error) {
+//     if (errFn) return errFn() as any
+//     else if (axios.isAxiosError(error) && error.response) {
+//       const message = error.response.data.message
+//       console.error(message)
+//     }
+//   }
+// }

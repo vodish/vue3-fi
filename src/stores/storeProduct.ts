@@ -31,7 +31,12 @@ export const useStoreProducts = defineStore('products', () => {
   apiRequest<TProduct[]>('/product/getAll').then(res => list.value = res)
 
   const resProduct = apiProductAll()
+  
   console.log(resProduct)
+
+
+
+
 
   const addrow: TProduct = {
     id: -1,
