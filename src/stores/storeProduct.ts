@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { apiRequest } from '@/utils/api'
-import { apiProductAll } from '@/utils/apiAxios'
+import { apiSetcookie } from '@/utils/apiAxios'
 
 export type TProduct = {
   id: number
@@ -26,14 +26,12 @@ export type TProductPrice = {
 
 
 
-export const useStoreProducts = defineStore('products', () => {
+export const useStoreProducts = defineStore('products', async () => {
   const list = ref<TProduct[]>([])
   apiRequest<TProduct[]>('/product/getAll').then(res => list.value = res)
 
-  const resProduct = apiProductAll()
-  
-  console.log(resProduct)
-
+  const data = await apiSetcookie()
+  console.log('from client', data)
 
 
 

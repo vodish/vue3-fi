@@ -20,20 +20,15 @@ const axiosInstance = axios.create({
 })
 
 
-export async function apiProductAll() {
+export async function apiSetcookie() {
   
   try {
-    const res = await axiosInstance.get<TProduct[]>('/setcookie')
-    const data = res.data
-    
-    console.log(data);
-    
-    return data;
-
+    const res = await axiosInstance.get<{test: string}>('/setcookie')
+    return res.data;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
-  
+
 }
 
 
